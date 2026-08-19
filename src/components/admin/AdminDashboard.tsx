@@ -227,8 +227,8 @@ type FormState = {
 };
 
 const SELLERS = {
-  thiago: { name: "Thiago", phone: "5551999069418" },
-  luisa: { name: "Luísa", phone: "5551989798989" },
+  romulo: { name: "Romulo", phone: "5551982752030" },
+  kelly: { name: "Kelly", phone: "5551982474584" },
 } as const;
 
 const SPECS_FIELDS: Record<Category, string[]> = {
@@ -338,8 +338,8 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
     if (!form.name.trim()) { toast.error("Nome é obrigatório"); return; }
     const price = Number(form.price.replace(",", "."));
     if (!isFinite(price) || price < 0) { toast.error("Preço inválido"); return; }
-    if (form.cta_url && !isValidUrl(form.cta_url)) { toast.error("URL do CTA (Thiago) inválida"); return; }
-    if (form.cta_url_luisa && !isValidUrl(form.cta_url_luisa)) { toast.error("URL do CTA (Luísa) inválida"); return; }
+    if (form.cta_url && !isValidUrl(form.cta_url)) { toast.error("URL do CTA (Romulo) inválida"); return; }
+    if (form.cta_url_luisa && !isValidUrl(form.cta_url_luisa)) { toast.error("URL do CTA (Kelly) inválida"); return; }
     setSaving(true);
     const isAccessory = form.category === "acessorios";
     const installment = !isAccessory && form.installment_12x.trim() ? Number(form.installment_12x.replace(",", ".")) : 0;
@@ -432,30 +432,30 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
               <Textarea rows={3} value={form.extrasText} onChange={(e) => setForm({ ...form, extrasText: e.target.value })} className="bg-background font-mono text-xs"
                 placeholder={"Ex.: Tela: Super Retina XDR"} />
             </Field>
-            <Field label="URL WhatsApp — Vendedor Thiago" hint="Gera link para +55 51 99002-0000.">
+            <Field label="URL WhatsApp — Vendedor Romulo" hint="Gera link para +55 51 98275-2030.">
               <div className="flex gap-2">
-                <Input value={form.cta_url} onChange={(e) => setForm({ ...form, cta_url: e.target.value })} className="bg-background" placeholder="https://wa.me/5551999069418?text=..." />
+                <Input value={form.cta_url} onChange={(e) => setForm({ ...form, cta_url: e.target.value })} className="bg-background" placeholder="https://wa.me/5551982752030?text=..." />
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    setForm({ ...form, cta_url: buildWhatsAppLink(form, SELLERS.thiago.phone) });
-                    toast.success("Link de Thiago gerado");
+                    setForm({ ...form, cta_url: buildWhatsAppLink(form, SELLERS.romulo.phone) });
+                    toast.success("Link de Romulo gerado");
                   }}
                 >
                   Gerar link
                 </Button>
               </div>
             </Field>
-            <Field label="URL WhatsApp — Vendedora Luísa" hint="Gera link para +55 51 98979-8989.">
+            <Field label="URL WhatsApp — Vendedora Kelly" hint="Gera link para +55 51 98247-4584.">
               <div className="flex gap-2">
-                <Input value={form.cta_url_luisa} onChange={(e) => setForm({ ...form, cta_url_luisa: e.target.value })} className="bg-background" placeholder="https://wa.me/5551989798989?text=..." />
+                <Input value={form.cta_url_luisa} onChange={(e) => setForm({ ...form, cta_url_luisa: e.target.value })} className="bg-background" placeholder="https://wa.me/5551982474584?text=..." />
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => {
-                    setForm({ ...form, cta_url_luisa: buildWhatsAppLink(form, SELLERS.luisa.phone) });
-                    toast.success("Link de Luísa gerado");
+                    setForm({ ...form, cta_url_luisa: buildWhatsAppLink(form, SELLERS.kelly.phone) });
+                    toast.success("Link de Kelly gerado");
                   }}
                 >
                   Gerar link
@@ -803,13 +803,13 @@ function SettingsManager() {
         </Field>
         <Field label="URL WhatsApp — Orçamento de reparo" hint="Aparece como botão no topo do site, ao lado do selo de garantia.">
           <div className="flex gap-2">
-            <Input value={form.repair_quote_url ?? ""} onChange={(e) => setForm({ ...form, repair_quote_url: e.target.value })} className="bg-background" placeholder="https://wa.me/5551999069418?text=..." />
+            <Input value={form.repair_quote_url ?? ""} onChange={(e) => setForm({ ...form, repair_quote_url: e.target.value })} className="bg-background" placeholder="https://wa.me/5551982752030?text=..." />
             <Button
               type="button"
               variant="outline"
-              onClick={() => setForm({ ...form, repair_quote_url: `https://wa.me/${SELLERS.thiago.phone}?text=${encodeURIComponent("Olá Thiago, gostaria de solicitar um orçamento de reparo.")}` })}
+              onClick={() => setForm({ ...form, repair_quote_url: `https://wa.me/${SELLERS.romulo.phone}?text=${encodeURIComponent("Olá Romulo, gostaria de solicitar um orçamento de reparo.")}` })}
             >
-              Usar Thiago
+              Usar Romulo
             </Button>
           </div>
         </Field>

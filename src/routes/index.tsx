@@ -356,18 +356,18 @@ function SellerPicker({ product, children }: { product: Product; children: React
         </div>
         <button
           type="button"
-          onClick={() => pick(product.cta_url, "Thiago")}
+          onClick={() => pick(product.cta_url, "Romulo")}
           className="flex w-full items-center justify-between rounded-md px-2 py-2 text-sm hover:bg-accent"
         >
-          <span>Vendedor <span className="font-medium">Thiago</span></span>
+          <span>Vendedor <span className="font-medium">Romulo</span></span>
           <span className="text-xs text-muted-foreground">WhatsApp</span>
         </button>
         <button
           type="button"
-          onClick={() => pick(product.cta_url_luisa, "Luísa")}
+          onClick={() => pick(product.cta_url_luisa, "Kelly")}
           className="flex w-full items-center justify-between rounded-md px-2 py-2 text-sm hover:bg-accent"
         >
-          <span>Vendedora <span className="font-medium">Luísa</span></span>
+          <span>Vendedora <span className="font-medium">Kelly</span></span>
           <span className="text-xs text-muted-foreground">WhatsApp</span>
         </button>
       </PopoverContent>
