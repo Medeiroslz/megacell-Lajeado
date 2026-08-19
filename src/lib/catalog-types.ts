@@ -29,5 +29,16 @@ export interface StoreSettings {
   city_state: string;
   legal_name: string;
   repair_quote_url: string;
+  whatsapp_url: string;
+  updated_at: string;
+}
+
+export interface Depoimento {
+  id: string;
+  image_path: string;
+  alt_text: string;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
   updated_at: string;
 }
