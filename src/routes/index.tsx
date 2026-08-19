@@ -118,6 +118,8 @@ function Landing() {
           </div>
         )}
       </section>
+      <PaymentMethods />
+      <Testimonials />
       <Footer settings={settings} />
       <ProductModal product={modal} onClose={() => setModal(null)} />
     </main>
@@ -134,12 +136,16 @@ function Header({ settings }: { settings: StoreSettings | null | undefined }) {
   }, []);
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-center px-4 py-4">
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-3 sm:flex-row sm:justify-between">
+        <div className="flex items-center gap-3">
+          <Logo />
+          <BrandIcons className="hidden text-muted-foreground sm:flex" />
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted-foreground">
             <span className="live-dot" /> Atualizado às {now}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/15 px-3 py-1 text-xs font-medium text-brand">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
             Estoque ao vivo
           </span>
           {settings?.instagram_url && (
@@ -155,6 +161,27 @@ function Header({ settings }: { settings: StoreSettings | null | undefined }) {
   );
 }
 
+export function Logo({ size = "md" }: { size?: "sm" | "md" }) {
+  const cls = size === "sm" ? "text-lg" : "text-2xl";
+  return (
+    <span className={`font-display font-bold tracking-tight ${cls}`}>
+      <span className="text-brand">MEGA</span>
+      <span className="text-primary"> CELL</span>
+    </span>
+  );
+}
+
+function BrandIcons({ className = "" }: { className?: string }) {
+  return (
+    <span aria-hidden="true" className={`items-center gap-2 opacity-70 ${className}`}>
+      <Apple className="h-4 w-4" />
+      <Smartphone className="h-4 w-4" />
+      <Gamepad2 className="h-4 w-4" />
+      <Joystick className="h-4 w-4" />
+    </span>
+  );
+}
+
 function Hero({ settings, total, loading }: { settings: StoreSettings | null | undefined; total: number; loading: boolean }) {
   const openRepair = () => {
     const url = settings?.repair_quote_url?.trim();
@@ -162,48 +189,95 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
     const ok = safeOpenUrl(url);
     if (!ok) toast.error("Link de orçamento inválido.");
   };
+  const openWhatsApp = () => {
+    const url = settings?.whatsapp_url?.trim() || settings?.repair_quote_url?.trim();
+    if (!url) { toast.error("Link do WhatsApp ainda não configurado."); return; }
+    const ok = safeOpenUrl(url);
+    if (!ok) toast.error("Link do WhatsApp inválido.");
+  };
   return (
     <section className="relative mx-auto max-w-6xl px-4 pt-4 pb-4 sm:pt-6 sm:pb-5 text-center overflow-hidden">
       {/* Glow effect */}
-      <div className="absolute left-1/2 top-0 -z-10 h-[250px] w-[400px] -translate-x-1/2 rounded-full bg-brand/5 blur-[100px]" />
+      <div className="absolute left-1/2 top-0 -z-10 h-[250px] w-[400px] -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]" />
       
       <div className="flex flex-col items-center gap-4">
       <div className="space-y-2">
           <h1 className="text-center text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            <span className="inline-block bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
-              {settings?.store_name ?? "HelpCell"}
+            <span className="inline-block">
+              <span className="text-brand">MEGA</span> <span className="text-primary">CELL</span>
             </span>
-            {settings?.tagline && settings.tagline !== "Apple seminovos" && (
-              <span className="block text-2xl font-light text-muted-foreground mt-2 sm:text-3xl lg:text-4xl">
-                {settings.tagline}
-              </span>
-            )}
+            <span className="block text-xl font-medium text-foreground/80 mt-3 sm:text-2xl lg:text-3xl">
+              {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
+            </span>
           </h1>
           <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
-            Produtos Apple selecionados, revisados e testados. Estoque atualizado em tempo real — escolha o seu produto e retire hoje mesmo.
+            iPhones e acessórios com procedência garantida em Lajeado/RS. Duas lojas físicas para você conhecer de perto
+            e atendimento rápido pelo WhatsApp.
           </p>
+          <BrandIcons className="mt-1 inline-flex justify-center text-muted-foreground" />
         </div>
         
         <div className="flex flex-wrap justify-center items-center gap-3 text-sm">
-          <div className="surface-card flex items-baseline gap-2 px-5 py-3 shadow-xl shadow-brand/5 border-brand/20">
-            <span className="text-3xl font-bold text-brand tabular-nums">{loading ? "—" : total}</span>
+          <div className="surface-card flex items-baseline gap-2 px-5 py-3 shadow-lg shadow-primary/5 border-primary/20">
+            <span className="text-3xl font-bold text-primary tabular-nums">{loading ? "—" : total}</span>
             <span className="text-muted-foreground font-medium">produtos no estoque</span>
           </div>
+          <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
+            <Store className="h-4 w-4 text-primary" /> 2 lojas físicas em Lajeado
+          </div>
           {settings?.city_state && (
-            <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border/50">
-              <MapPin className="h-4 w-4 text-brand" /> {settings.city_state}
+            <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
+              <MapPin className="h-4 w-4 text-primary" /> {settings.city_state}
             </div>
           )}
-          <div className="surface-card hidden sm:inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border/50">
-            <ShieldCheck className="h-4 w-4 text-brand" /> Garantia e Procedência
+          <div className="surface-card hidden sm:inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
+            <ShieldCheck className="h-4 w-4 text-primary" /> Garantia e Procedência
           </div>
           <Button
-            onClick={openRepair}
+            onClick={openWhatsApp}
             className="h-auto rounded-[var(--radius-xl)] bg-brand px-5 py-3 text-brand-foreground hover:bg-brand/90"
+          >
+            <MessageCircle className="mr-2 h-4 w-4" /> Falar no WhatsApp
+          </Button>
+          <Button
+            onClick={openRepair}
+            variant="outline"
+            className="h-auto rounded-[var(--radius-xl)] px-5 py-3"
           >
             <Wrench className="mr-2 h-4 w-4" /> Solicitar orçamento de reparo
           </Button>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function PaymentMethods() {
+  const items = [
+    { icon: Zap, label: "Pix", hint: "Confirmação na hora" },
+    { icon: Banknote, label: "Dinheiro", hint: "À vista na loja" },
+    { icon: CreditCard, label: "Cartão até 12x", hint: "Crédito e débito" },
+  ];
+  return (
+    <section className="mx-auto max-w-6xl px-4 pb-12">
+      <div className="surface-card p-6 sm:p-8">
+        <h2 className="text-xl font-semibold sm:text-2xl">Formas de pagamento</h2>
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          {items.map(({ icon: Icon, label, hint }) => (
+            <div key={label} className="flex items-center gap-3 rounded-[var(--radius-lg)] bg-surface p-4">
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-primary/10 text-primary">
+                <Icon className="h-5 w-5" />
+              </span>
+              <div>
+                <div className="font-medium">{label}</div>
+                <div className="text-xs text-muted-foreground">{hint}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-5 rounded-[var(--radius-lg)] border border-brand/30 bg-brand/5 px-4 py-3 text-sm text-foreground">
+          <strong>Importante:</strong> não trabalhamos com boleto.
+        </p>
       </div>
     </section>
   );
