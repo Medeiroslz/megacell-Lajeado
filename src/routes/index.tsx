@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, useEffect } from "react";
-import { Search, MapPin, Instagram, ShieldCheck, ChevronLeft, ChevronRight, Wrench, X } from "lucide-react";
+import {
+  Search, MapPin, Instagram, ShieldCheck, ChevronLeft, ChevronRight, Wrench, X,
+  Apple, Smartphone, Gamepad2, Joystick, MessageCircle, CreditCard, Banknote, Zap, Store,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,12 +17,15 @@ import { formatBRL, categoryLabel, safeOpenUrl } from "@/lib/format";
 import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
 import { toast } from "sonner";
 import { useProductImageUrls } from "@/lib/product-images";
+import { Testimonials } from "@/components/Testimonials";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "HelpCell — Apple selecionados com estoque ao vivo" },
-      { name: "description", content: "iPhones, MacBooks, iPads e Apple Watches selecionados, revisados e com estoque em tempo real." },
+      { title: "Mega Cell — iPhones em Lajeado, RS" },
+      { name: "description", content: "iPhones e acessórios na Mega Cell, Lajeado/RS. Duas lojas físicas, atendimento rápido no WhatsApp e estoque atualizado." },
+      { property: "og:title", content: "Mega Cell — iPhones em Lajeado, RS" },
+      { property: "og:description", content: "iPhones e acessórios na Mega Cell, Lajeado/RS. Duas lojas físicas, atendimento rápido no WhatsApp e estoque atualizado." },
     ],
   }),
   component: Landing,
