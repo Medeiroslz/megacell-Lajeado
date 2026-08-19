@@ -15,24 +15,25 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, Copy, Upload, X, LogOut, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, Copy, Upload, X, LogOut, Search, ArrowUp, ArrowDown } from "lucide-react";
 import { toast } from "sonner";
 import { formatBRL, categoryLabel, isValidUrl, safeOpenUrl } from "@/lib/format";
-import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
+import type { Product, StoreSettings, Category, Depoimento } from "@/lib/catalog-types";
 import { normalizeProductImageValue, useProductImageUrl } from "@/lib/product-images";
+import { DEPOIMENTOS_BUCKET, depoimentoImageUrl } from "@/lib/depoimento-images";
 
 const CATEGORIES: Category[] = ["iphone", "macbook", "ipad", "watch", "acessorios"];
 
 export function AdminDashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<"products" | "settings">("products");
+  const [tab, setTab] = useState<"products" | "depoimentos" | "settings">("products");
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-surface">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-brand-foreground font-bold">H</span>
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground font-bold">M</span>
             <div>
-              <div className="text-sm font-semibold">HelpCell Admin</div>
+              <div className="text-sm font-semibold">Mega Cell Admin</div>
               <div className="text-xs text-muted-foreground">{user.email}</div>
             </div>
           </div>
@@ -45,11 +46,12 @@ export function AdminDashboard({ user }: { user: User }) {
         </div>
         <div className="mx-auto flex max-w-6xl gap-2 px-4">
           <TabBtn active={tab === "products"} onClick={() => setTab("products")}>Produtos</TabBtn>
+          <TabBtn active={tab === "depoimentos"} onClick={() => setTab("depoimentos")}>Depoimentos</TabBtn>
           <TabBtn active={tab === "settings"} onClick={() => setTab("settings")}>Configurações</TabBtn>
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-4 py-8">
-        {tab === "products" ? <ProductsManager /> : <SettingsManager />}
+        {tab === "products" ? <ProductsManager /> : tab === "depoimentos" ? <DepoimentosManager /> : <SettingsManager />}
       </main>
     </div>
   );
@@ -283,7 +285,7 @@ function buildWhatsAppLink(form: FormState, phone: string): string {
     ? (form.installment_label.trim() ? `(${form.installment_label.trim()})` : "")
     : `ou em 12x de ${formatBRL(installment)} no cartao`;
   const parts = [
-    "Ola Help Cell, tenho interesse no",
+    "Ola Mega Cell, tenho interesse no",
     form.name,
     specs["Armazenamento"],
     specs["Bateria"] ? `${specs["Bateria"]}%` : "",
@@ -547,7 +549,7 @@ function PreviewCard({ form }: { form: FormState }) {
         <div className="flex items-end justify-between gap-3 pt-1">
           <div>
             <div className="text-[11px] uppercase tracking-wider text-muted-foreground">à vista</div>
-            <div className="text-xl font-semibold text-brand">{formatBRL(price)}</div>
+            <div className="text-xl font-semibold text-primary">{formatBRL(price)}</div>
             {form.category === "acessorios" ? (
               form.installment_label.trim() && <div className="text-[11px] text-muted-foreground mt-0.5">{form.installment_label}</div>
             ) : (
@@ -563,6 +565,174 @@ function PreviewCard({ form }: { form: FormState }) {
           >
             {form.cta_label || "Falar no WhatsApp"}
           </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+/* ============ DEPOIMENTOS ============ */
+
+async function fetchDepoimentos(): Promise<Depoimento[]> {
+  const { data, error } = await supabase
+    .from("depoimentos")
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as Depoimento[];
+}
+
+function DepoimentosManager() {
+  const qc = useQueryClient();
+  const q = useQuery({ queryKey: ["depoimentos", "admin"], queryFn: fetchDepoimentos });
+  const [uploading, setUploading] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<Depoimento | null>(null);
+  const items = q.data ?? [];
+  const invalidate = () => qc.invalidateQueries({ queryKey: ["depoimentos"] });
+
+  const upload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    let base = items.length > 0 ? Math.max(...items.map((i) => i.sort_order)) + 1 : 0;
+    for (const file of Array.from(files)) {
+      if (!file.type.startsWith("image/")) { toast.error(`${file.name}: formato inválido`); continue; }
+      if (file.size > 8 * 1024 * 1024) { toast.error(`${file.name}: máximo 8MB`); continue; }
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const up = await supabase.storage.from(DEPOIMENTOS_BUCKET).upload(path, file, { contentType: file.type, upsert: false });
+      if (up.error) { toast.error(up.error.message); continue; }
+      const ins = await supabase.from("depoimentos").insert({ image_path: path, sort_order: base++ });
+      if (ins.error) { toast.error(ins.error.message); continue; }
+    }
+    setUploading(false);
+    toast.success("Depoimentos enviados");
+    invalidate();
+  };
+
+  const toggle = useMutation({
+    mutationFn: async ({ id, value }: { id: string; value: boolean }) => {
+      const { error } = await supabase.from("depoimentos").update({ is_active: value }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: invalidate,
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const saveAlt = useMutation({
+    mutationFn: async ({ id, alt }: { id: string; alt: string }) => {
+      const { error } = await supabase.from("depoimentos").update({ alt_text: alt }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => { toast.success("Texto alternativo salvo"); invalidate(); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const move = useMutation({
+    mutationFn: async ({ index, dir }: { index: number; dir: -1 | 1 }) => {
+      const target = index + dir;
+      if (target < 0 || target >= items.length) return;
+      const a = items[index];
+      const b = items[target];
+      const r1 = await supabase.from("depoimentos").update({ sort_order: b.sort_order }).eq("id", a.id);
+      if (r1.error) throw r1.error;
+      const r2 = await supabase.from("depoimentos").update({ sort_order: a.sort_order }).eq("id", b.id);
+      if (r2.error) throw r2.error;
+    },
+    onSuccess: invalidate,
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const del = useMutation({
+    mutationFn: async (d: Depoimento) => {
+      const { error } = await supabase.from("depoimentos").delete().eq("id", d.id);
+      if (error) throw error;
+      await supabase.storage.from(DEPOIMENTOS_BUCKET).remove([d.image_path]);
+    },
+    onSuccess: () => { toast.success("Depoimento removido"); setConfirmDelete(null); invalidate(); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  return (
+    <div className="space-y-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold">Depoimentos</h1>
+          <p className="text-sm text-muted-foreground">Prints de avaliações do Google, Instagram ou WhatsApp.</p>
+        </div>
+        <label className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--radius-lg)] bg-brand px-4 py-2 text-sm font-medium text-brand-foreground hover:bg-brand/90">
+          <Upload className="h-4 w-4" /> {uploading ? "Enviando…" : "Enviar prints"}
+          <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { upload(e.target.files); e.target.value = ""; }} />
+        </label>
+      </div>
+
+      {q.isLoading ? (
+        <div className="surface-card p-8 text-center text-muted-foreground">Carregando…</div>
+      ) : items.length === 0 ? (
+        <div className="surface-card p-8 text-center text-muted-foreground">Nenhum depoimento enviado ainda.</div>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((d, i) => (
+            <DepoimentoCard
+              key={d.id}
+              item={d}
+              onToggle={(v) => toggle.mutate({ id: d.id, value: v })}
+              onAlt={(alt) => saveAlt.mutate({ id: d.id, alt })}
+              onUp={() => move.mutate({ index: i, dir: -1 })}
+              onDown={() => move.mutate({ index: i, dir: 1 })}
+              onDelete={() => setConfirmDelete(d)}
+            />
+          ))}
+        </div>
+      )}
+
+      <AlertDialog open={!!confirmDelete} onOpenChange={(o) => !o && setConfirmDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remover depoimento?</AlertDialogTitle>
+            <AlertDialogDescription>A imagem será apagada permanentemente.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={() => confirmDelete && del.mutate(confirmDelete)}
+              className="bg-brand text-brand-foreground hover:bg-brand/90">Remover</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+}
+
+function DepoimentoCard({
+  item, onToggle, onAlt, onUp, onDown, onDelete,
+}: {
+  item: Depoimento;
+  onToggle: (v: boolean) => void;
+  onAlt: (alt: string) => void;
+  onUp: () => void;
+  onDown: () => void;
+  onDelete: () => void;
+}) {
+  const [alt, setAlt] = useState(item.alt_text ?? "");
+  return (
+    <div className="surface-card overflow-hidden">
+      <img src={depoimentoImageUrl(item.image_path)} alt={item.alt_text || "Print de avaliação"} className="w-full" />
+      <div className="space-y-3 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Switch checked={item.is_active} onCheckedChange={onToggle} />
+            <span className="text-sm text-muted-foreground">{item.is_active ? "Ativo" : "Inativo"}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Button size="sm" variant="ghost" onClick={onUp} aria-label="Subir"><ArrowUp className="h-4 w-4" /></Button>
+            <Button size="sm" variant="ghost" onClick={onDown} aria-label="Descer"><ArrowDown className="h-4 w-4" /></Button>
+            <Button size="sm" variant="ghost" onClick={onDelete} aria-label="Remover"><Trash2 className="h-4 w-4 text-brand" /></Button>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Input value={alt} onChange={(e) => setAlt(e.target.value)} placeholder="Texto alternativo (opcional)" className="bg-background" />
+          <Button variant="outline" size="sm" onClick={() => onAlt(alt.trim())}>Salvar</Button>
         </div>
       </div>
     </div>
@@ -627,6 +797,9 @@ function SettingsManager() {
         </Field>
         <Field label="Razão social (rodapé)">
           <Input value={form.legal_name ?? ""} onChange={(e) => setForm({ ...form, legal_name: e.target.value })} className="bg-background" />
+        </Field>
+        <Field label="URL WhatsApp — Contato principal" hint="Usado pelo botão 'Falar no WhatsApp' no topo do site.">
+          <Input value={form.whatsapp_url ?? ""} onChange={(e) => setForm({ ...form, whatsapp_url: e.target.value })} className="bg-background" placeholder="https://wa.me/5551999999999?text=..." />
         </Field>
         <Field label="URL WhatsApp — Orçamento de reparo" hint="Aparece como botão no topo do site, ao lado do selo de garantia.">
           <div className="flex gap-2">
