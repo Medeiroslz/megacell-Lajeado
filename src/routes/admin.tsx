@@ -10,7 +10,7 @@ import { AdminDashboard } from "@/components/admin/AdminDashboard";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
-  head: () => ({ meta: [{ title: "Admin — HelpCell" }, { name: "robots", content: "noindex,nofollow" }] }),
+  head: () => ({ meta: [{ title: "Admin — Mega Cell" }, { name: "robots", content: "noindex,nofollow" }] }),
   component: AdminPage,
 });
 
@@ -63,8 +63,8 @@ function LoginForm() {
     <div className="grid min-h-screen place-items-center bg-background px-4">
       <form onSubmit={submit} className="surface-card w-full max-w-sm p-8">
         <div className="mb-6 flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-brand-foreground font-bold">H</span>
-          <span className="font-semibold">HelpCell — Admin</span>
+          <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground font-bold">M</span>
+          <span className="font-semibold"><span className="text-brand">MEGA</span> <span className="text-primary">CELL</span> — Admin</span>
         </div>
         <h1 className="mb-1 text-xl font-semibold">Entrar no painel</h1>
         <p className="mb-6 text-sm text-muted-foreground">Acesso restrito.</p>

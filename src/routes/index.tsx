@@ -322,7 +322,7 @@ function Filters({
               onClick={() => setTab(t.id)}
               className={`rounded-full border px-4 py-2 text-sm transition ${
                 active
-                  ? "border-brand bg-brand text-brand-foreground"
+                  ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-surface text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -395,7 +395,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
   return (
     <article
       onClick={onOpen}
-      className="surface-card group relative flex cursor-pointer flex-col overflow-hidden transition hover:border-brand/60 hover:shadow-[0_8px_40px_-12px_rgba(220,38,38,0.25)]"
+      className="surface-card group relative flex cursor-pointer flex-col overflow-hidden transition hover:border-primary/60 hover:shadow-[0_10px_40px_-14px_color-mix(in_oklab,var(--primary)_45%,transparent)]"
     >
       <button
         type="button"
@@ -444,7 +444,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
             </button>
             <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
               {imgs.map((_, i) => (
-                <span key={i} className={`h-1 w-3 rounded-full ${i === idx ? "bg-brand" : "bg-foreground/30"}`} />
+                <span key={i} className={`h-1 w-3 rounded-full ${i === idx ? "bg-primary" : "bg-foreground/30"}`} />
               ))}
             </div>
           </>
@@ -462,7 +462,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
         <div className="mt-auto flex items-end justify-between gap-3 pt-2">
           <div>
             <div className="text-[11px] uppercase tracking-wider text-muted-foreground">à vista</div>
-            <div className="text-xl font-semibold text-brand">{formatBRL(product.price)}</div>
+            <div className="text-xl font-semibold text-primary">{formatBRL(product.price)}</div>
             {product.category === "acessorios" ? (
               product.installment_label && <div className="text-[11px] text-muted-foreground mt-0.5">{product.installment_label}</div>
             ) : (
@@ -521,7 +521,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                 <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
                   {imgs.map((_, i) => (
                     <button key={i} onClick={() => setIdx(i)}
-                      className={`h-1.5 w-4 rounded-full ${i === idx ? "bg-brand" : "bg-foreground/30"}`} />
+                      className={`h-1.5 w-4 rounded-full ${i === idx ? "bg-primary" : "bg-foreground/30"}`} />
                   ))}
                 </div>
               </>
@@ -533,7 +533,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
               <h2 className="mt-1 text-xl font-semibold pr-8">{product.name}</h2>
             </div>
             <div>
-              <div className="text-3xl font-semibold text-brand">{formatBRL(product.price)}</div>
+              <div className="text-3xl font-semibold text-primary">{formatBRL(product.price)}</div>
               {product.category === "acessorios" ? (
                 product.installment_label && <div className="text-sm text-muted-foreground mt-1">{product.installment_label}</div>
               ) : (
@@ -587,8 +587,8 @@ function Loading() {
 function EmptyState({ hasAny }: { hasAny: boolean }) {
   return (
     <div className="surface-card mt-8 p-12 text-center">
-      <p className="text-base text-foreground">{hasAny ? "Nenhum produto corresponde aos filtros." : "Em breve novos produtos."}</p>
-      <p className="mt-1 text-sm text-muted-foreground">{hasAny ? "Tente ajustar a busca ou trocar de categoria." : "Acompanhe o estoque em tempo real."}</p>
+      <p className="text-base text-foreground">{hasAny ? "Nenhum produto corresponde aos filtros." : "Nenhum produto cadastrado ainda."}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{hasAny ? "Tente ajustar a busca ou trocar de categoria." : "Fale com a Mega Cell no WhatsApp para saber o que temos disponível hoje."}</p>
     </div>
   );
 }
@@ -600,8 +600,8 @@ function Footer({ settings }: { settings: StoreSettings | null | undefined }) {
       <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-muted-foreground">
         <div className="grid gap-6 sm:grid-cols-3">
           <div>
-            <div className="text-foreground font-semibold">{settings?.store_name ?? "HelpCell"}</div>
-            <div className="mt-1">© {year} {settings?.legal_name ?? settings?.store_name ?? "HelpCell"}. Todos os direitos reservados.</div>
+            <div className="text-foreground font-semibold">{settings?.store_name ?? "Mega Cell"}</div>
+            <div className="mt-1">© {year} {settings?.legal_name ?? settings?.store_name ?? "Mega Cell"}. Todos os direitos reservados.</div>
           </div>
           <div>
             <div className="text-foreground font-semibold">Endereço</div>

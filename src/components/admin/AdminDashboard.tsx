@@ -30,9 +30,9 @@ export function AdminDashboard({ user }: { user: User }) {
       <header className="border-b border-border bg-surface">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-brand-foreground font-bold">H</span>
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-primary-foreground font-bold">M</span>
             <div>
-              <div className="text-sm font-semibold">HelpCell Admin</div>
+              <div className="text-sm font-semibold">Mega Cell Admin</div>
               <div className="text-xs text-muted-foreground">{user.email}</div>
             </div>
           </div>
@@ -283,7 +283,7 @@ function buildWhatsAppLink(form: FormState, phone: string): string {
     ? (form.installment_label.trim() ? `(${form.installment_label.trim()})` : "")
     : `ou em 12x de ${formatBRL(installment)} no cartao`;
   const parts = [
-    "Ola Help Cell, tenho interesse no",
+    "Ola Mega Cell, tenho interesse no",
     form.name,
     specs["Armazenamento"],
     specs["Bateria"] ? `${specs["Bateria"]}%` : "",
@@ -547,7 +547,7 @@ function PreviewCard({ form }: { form: FormState }) {
         <div className="flex items-end justify-between gap-3 pt-1">
           <div>
             <div className="text-[11px] uppercase tracking-wider text-muted-foreground">à vista</div>
-            <div className="text-xl font-semibold text-brand">{formatBRL(price)}</div>
+            <div className="text-xl font-semibold text-primary">{formatBRL(price)}</div>
             {form.category === "acessorios" ? (
               form.installment_label.trim() && <div className="text-[11px] text-muted-foreground mt-0.5">{form.installment_label}</div>
             ) : (
