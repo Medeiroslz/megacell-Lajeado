@@ -338,8 +338,8 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
     if (!form.name.trim()) { toast.error("Nome é obrigatório"); return; }
     const price = Number(form.price.replace(",", "."));
     if (!isFinite(price) || price < 0) { toast.error("Preço inválido"); return; }
-    if (form.cta_url && !isValidUrl(form.cta_url)) { toast.error("URL do CTA (Thiago) inválida"); return; }
-    if (form.cta_url_luisa && !isValidUrl(form.cta_url_luisa)) { toast.error("URL do CTA (Luísa) inválida"); return; }
+    if (form.cta_url && !isValidUrl(form.cta_url)) { toast.error("URL do CTA (Romulo) inválida"); return; }
+    if (form.cta_url_luisa && !isValidUrl(form.cta_url_luisa)) { toast.error("URL do CTA (Kelly) inválida"); return; }
     setSaving(true);
     const isAccessory = form.category === "acessorios";
     const installment = !isAccessory && form.installment_12x.trim() ? Number(form.installment_12x.replace(",", ".")) : 0;
@@ -809,7 +809,7 @@ function SettingsManager() {
               variant="outline"
               onClick={() => setForm({ ...form, repair_quote_url: `https://wa.me/${SELLERS.romulo.phone}?text=${encodeURIComponent("Olá Romulo, gostaria de solicitar um orçamento de reparo.")}` })}
             >
-              Usar Thiago
+              Usar Romulo
             </Button>
           </div>
         </Field>
