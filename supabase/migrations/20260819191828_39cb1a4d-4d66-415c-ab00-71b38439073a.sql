@@ -1,0 +1,4 @@
+CREATE POLICY "Public read depoimentos images" ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'depoimentos');
+CREATE POLICY "Admins upload depoimentos images" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'depoimentos' AND has_role(auth.uid(), 'admin'::app_role));
+CREATE POLICY "Admins update depoimentos images" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'depoimentos' AND has_role(auth.uid(), 'admin'::app_role));
+CREATE POLICY "Admins delete depoimentos images" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'depoimentos' AND has_role(auth.uid(), 'admin'::app_role));
