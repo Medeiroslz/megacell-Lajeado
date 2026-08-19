@@ -114,6 +114,7 @@ export type Database = {
           store_name: string
           tagline: string
           updated_at: string
+          whatsapp_url: string
         }
         Insert: {
           address?: string
@@ -127,6 +128,7 @@ export type Database = {
           store_name?: string
           tagline?: string
           updated_at?: string
+          whatsapp_url?: string
         }
         Update: {
           address?: string
@@ -140,6 +142,7 @@ export type Database = {
           store_name?: string
           tagline?: string
           updated_at?: string
+          whatsapp_url?: string
         }
         Relationships: []
       }
