@@ -15,16 +15,17 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, Copy, Upload, X, LogOut, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, Copy, Upload, X, LogOut, Search, ArrowUp, ArrowDown } from "lucide-react";
 import { toast } from "sonner";
 import { formatBRL, categoryLabel, isValidUrl, safeOpenUrl } from "@/lib/format";
-import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
+import type { Product, StoreSettings, Category, Depoimento } from "@/lib/catalog-types";
 import { normalizeProductImageValue, useProductImageUrl } from "@/lib/product-images";
+import { DEPOIMENTOS_BUCKET, depoimentoImageUrl } from "@/lib/depoimento-images";
 
 const CATEGORIES: Category[] = ["iphone", "macbook", "ipad", "watch", "acessorios"];
 
 export function AdminDashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<"products" | "settings">("products");
+  const [tab, setTab] = useState<"products" | "depoimentos" | "settings">("products");
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-surface">
@@ -45,11 +46,12 @@ export function AdminDashboard({ user }: { user: User }) {
         </div>
         <div className="mx-auto flex max-w-6xl gap-2 px-4">
           <TabBtn active={tab === "products"} onClick={() => setTab("products")}>Produtos</TabBtn>
+          <TabBtn active={tab === "depoimentos"} onClick={() => setTab("depoimentos")}>Depoimentos</TabBtn>
           <TabBtn active={tab === "settings"} onClick={() => setTab("settings")}>Configurações</TabBtn>
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-4 py-8">
-        {tab === "products" ? <ProductsManager /> : <SettingsManager />}
+        {tab === "products" ? <ProductsManager /> : tab === "depoimentos" ? <DepoimentosManager /> : <SettingsManager />}
       </main>
     </div>
   );
