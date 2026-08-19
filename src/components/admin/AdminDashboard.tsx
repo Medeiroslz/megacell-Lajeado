@@ -227,8 +227,8 @@ type FormState = {
 };
 
 const SELLERS = {
-  thiago: { name: "Thiago", phone: "5551999069418" },
-  luisa: { name: "Luísa", phone: "5551989798989" },
+  romulo: { name: "Romulo", phone: "5551982752030" },
+  kelly: { name: "Kelly", phone: "5551982474584" },
 } as const;
 
 const SPECS_FIELDS: Record<Category, string[]> = {
