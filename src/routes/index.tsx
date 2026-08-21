@@ -258,17 +258,10 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
             <ShieldCheck className="h-4 w-4 text-primary" /> Garantia e Procedência
           </div>
           <Button
-            onClick={openWhatsApp}
+            onClick={openRepair}
             className="h-auto rounded-[var(--radius-xl)] bg-brand px-5 py-3 text-brand-foreground hover:bg-brand/90"
           >
-            <MessageCircle className="mr-2 h-4 w-4" /> Falar no WhatsApp
-          </Button>
-          <Button
-            onClick={openRepair}
-            variant="outline"
-            className="h-auto rounded-[var(--radius-xl)] px-5 py-3"
-          >
-            <Wrench className="mr-2 h-4 w-4" /> Solicitar orçamento de reparo
+            <Wrench className="mr-2 h-4 w-4" /> Solicitar reparo
           </Button>
         </div>
       </div>
