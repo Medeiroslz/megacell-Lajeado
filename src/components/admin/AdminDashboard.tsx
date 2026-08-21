@@ -307,6 +307,7 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
     return {
       name: product.name, category: product.category, price: String(product.price),
       installment_12x: product.installment_12x ? String(product.installment_12x) : "",
+      installment_18x: product.installment_18x ? String(product.installment_18x) : "",
       installment_label: product.installment_label ?? "",
       description: product.description ?? "", specs, extrasText: extrasToText(extras),
       images: product.images ?? [], is_available: product.is_available,
