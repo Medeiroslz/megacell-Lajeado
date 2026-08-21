@@ -163,6 +163,12 @@ function Header({ settings }: { settings: StoreSettings | null | undefined }) {
   );
 }
 
+function installmentValue(product: Product, n: 12 | 18): number {
+  const custom = n === 12 ? product.installment_12x : product.installment_18x;
+  return custom && custom > 0 ? custom : product.price / n;
+}
+
+
 export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const [failed, setFailed] = useState(false);
   const cls = size === "sm" ? "h-7" : size === "lg" ? "h-20 sm:h-24 lg:h-28" : "h-10 sm:h-11";
@@ -485,7 +491,8 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
               product.installment_label && <div className="text-[11px] text-muted-foreground mt-0.5">{product.installment_label}</div>
             ) : (
               <div className="text-[11px] text-muted-foreground mt-0.5">
-                ou 18x de <span className="font-medium text-foreground">{formatBRL(product.installment_12x && product.installment_12x > 0 ? product.installment_12x : product.price / 18)}</span>
+                12x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 12))}</span>
+                {" ou "}18x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 18))}</span>
               </div>
             )}
           </div>
@@ -556,7 +563,8 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                 product.installment_label && <div className="text-sm text-muted-foreground mt-1">{product.installment_label}</div>
               ) : (
                 <div className="text-sm text-muted-foreground mt-1">
-                  ou 18x de <span className="font-medium text-foreground">{formatBRL(product.installment_12x && product.installment_12x > 0 ? product.installment_12x : product.price / 18)}</span>
+                  12x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 12))}</span>
+                  {" ou "}18x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 18))}</span>
                 </div>
               )}
             </div>

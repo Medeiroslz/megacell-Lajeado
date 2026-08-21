@@ -6,6 +6,7 @@ export interface Product {
   category: Category;
   price: number;
   installment_12x: number;
+  installment_18x: number;
   installment_label: string;
   description: string;
   specs: Record<string, string>;

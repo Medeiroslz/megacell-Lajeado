@@ -55,6 +55,7 @@ export type Database = {
           id: string
           images: string[]
           installment_12x: number
+          installment_18x: number
           installment_label: string
           is_available: boolean
           name: string
@@ -73,6 +74,7 @@ export type Database = {
           id?: string
           images?: string[]
           installment_12x?: number
+          installment_18x?: number
           installment_label?: string
           is_available?: boolean
           name: string
@@ -91,6 +93,7 @@ export type Database = {
           id?: string
           images?: string[]
           installment_12x?: number
+          installment_18x?: number
           installment_label?: string
           is_available?: boolean
           name?: string

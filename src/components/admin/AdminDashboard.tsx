@@ -215,6 +215,7 @@ type FormState = {
   category: Category;
   price: string;
   installment_12x: string;
+  installment_18x: string;
   installment_label: string;
   description: string;
   specs: Record<string, string>;
@@ -273,17 +274,18 @@ function mergedSpecs(form: FormState): Record<string, string> {
 
 function emptyForm(): FormState {
   const { specs } = splitSpecs("iphone");
-  return { name: "", category: "iphone", price: "", installment_12x: "", installment_label: "", description: "", specs, extrasText: "", images: [], is_available: true, cta_url: "", cta_url_luisa: "", cta_label: "Falar no WhatsApp" };
+  return { name: "", category: "iphone", price: "", installment_12x: "", installment_18x: "", installment_label: "", description: "", specs, extrasText: "", images: [], is_available: true, cta_url: "", cta_url_luisa: "", cta_label: "Falar no WhatsApp" };
 }
 
 function buildWhatsAppLink(form: FormState, phone: string): string {
   const specs = mergedSpecs(form);
   const price = Number(form.price.replace(",", ".")) || 0;
   const isAccessory = form.category === "acessorios";
-  const installment = Number(form.installment_12x.replace(",", ".")) || price / 18;
+  const p12 = Number(form.installment_12x.replace(",", ".")) || price / 12;
+  const p18 = Number(form.installment_18x.replace(",", ".")) || price / 18;
   const paymentPart = isAccessory
     ? (form.installment_label.trim() ? `(${form.installment_label.trim()})` : "")
-    : `ou em 18x de ${formatBRL(installment)} no cartao`;
+    : `ou em 12x de ${formatBRL(p12)} ou 18x de ${formatBRL(p18)} no cartao`;
   const parts = [
     "Ola Mega Cell, tenho interesse no",
     form.name,
@@ -305,6 +307,7 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
     return {
       name: product.name, category: product.category, price: String(product.price),
       installment_12x: product.installment_12x ? String(product.installment_12x) : "",
+      installment_18x: product.installment_18x ? String(product.installment_18x) : "",
       installment_label: product.installment_label ?? "",
       description: product.description ?? "", specs, extrasText: extrasToText(extras),
       images: product.images ?? [], is_available: product.is_available,
@@ -343,12 +346,16 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
     setSaving(true);
     const isAccessory = form.category === "acessorios";
     const installment = !isAccessory && form.installment_12x.trim() ? Number(form.installment_12x.replace(",", ".")) : 0;
-    if (!isAccessory && !isFinite(installment) || installment < 0) { toast.error("Valor da parcela inválido"); setSaving(false); return; }
+    const installment18 = !isAccessory && form.installment_18x.trim() ? Number(form.installment_18x.replace(",", ".")) : 0;
+    if (!isAccessory && (!isFinite(installment) || installment < 0 || !isFinite(installment18) || installment18 < 0)) {
+      toast.error("Valor da parcela inválido"); setSaving(false); return;
+    }
     const payload = {
       name: form.name.trim(),
       category: form.category,
       price,
       installment_12x: installment,
+      installment_18x: installment18,
       installment_label: isAccessory ? form.installment_label.trim().slice(0, 60) : "",
       description: form.description,
       specs: mergedSpecs(form),
@@ -403,13 +410,18 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
               </Field>
             </div>
             {form.category === "acessorios" ? (
-              <Field label="Parcelamento (texto livre)" hint="Aparece no card no lugar de '18x de R$ ...'. Ex.: 'à vista', '2x sem juros', 'sem parcelamento'. Deixe em branco para ocultar.">
+              <Field label="Parcelamento (texto livre)" hint="Aparece no card no lugar das parcelas. Ex.: 'à vista', '2x sem juros', 'sem parcelamento'. Deixe em branco para ocultar.">
                 <Input value={form.installment_label} onChange={(e) => setForm({ ...form, installment_label: e.target.value })} className="bg-background" placeholder="à vista" maxLength={60} />
               </Field>
             ) : (
-              <Field label="Valor da parcela em 18x (R$)" hint="Aparece no card como '18x de R$ ...'. Deixe em branco para calcular automaticamente (preço ÷ 18).">
-                <Input inputMode="decimal" value={form.installment_12x} onChange={(e) => setForm({ ...form, installment_12x: e.target.value })} className="bg-background" placeholder="0,00" />
-              </Field>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Field label="Valor da parcela em 12x (R$)" hint="Deixe em branco para calcular automaticamente (preço ÷ 12).">
+                  <Input inputMode="decimal" value={form.installment_12x} onChange={(e) => setForm({ ...form, installment_12x: e.target.value })} className="bg-background" placeholder="0,00" />
+                </Field>
+                <Field label="Valor da parcela em 18x (R$)" hint="Deixe em branco para calcular automaticamente (preço ÷ 18).">
+                  <Input inputMode="decimal" value={form.installment_18x} onChange={(e) => setForm({ ...form, installment_18x: e.target.value })} className="bg-background" placeholder="0,00" />
+                </Field>
+              </div>
             )}
             <Field label="Descrição">
               <Textarea rows={4} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="bg-background" />
@@ -554,7 +566,7 @@ function PreviewCard({ form }: { form: FormState }) {
               form.installment_label.trim() && <div className="text-[11px] text-muted-foreground mt-0.5">{form.installment_label}</div>
             ) : (
               <div className="text-[11px] text-muted-foreground mt-0.5">
-                ou 18x de {formatBRL(Number(form.installment_12x.replace(",", ".")) || price / 18)}
+                12x de {formatBRL(Number(form.installment_12x.replace(",", ".")) || price / 12)} ou 18x de {formatBRL(Number(form.installment_18x.replace(",", ".")) || price / 18)}
               </div>
             )}
           </div>
