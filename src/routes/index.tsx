@@ -162,14 +162,12 @@ function Header({ settings }: { settings: StoreSettings | null | undefined }) {
 }
 
 export function Logo({ size = "md" }: { size?: "sm" | "md" }) {
-  const cls = size === "sm" ? "text-lg" : "text-2xl";
+  const cls = size === "sm" ? "h-7" : "h-10 sm:h-11";
   return (
-    <span className={`font-display font-bold tracking-tight ${cls}`}>
-      <span className="text-brand">MEGA</span>
-      <span className="text-primary"> CELL</span>
-    </span>
+    <img src={logoAsset.url} alt="Mega Cell" className={`${cls} w-auto select-none`} draggable={false} />
   );
 }
+
 
 function BrandIcons({ className = "" }: { className?: string }) {
   return (
