@@ -18,6 +18,8 @@ import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
 import { toast } from "sonner";
 import { useProductImageUrls } from "@/lib/product-images";
 import { Testimonials } from "@/components/Testimonials";
+import logoAsset from "@/assets/megacell-logo.png.asset.json";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
