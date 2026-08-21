@@ -346,12 +346,16 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
     setSaving(true);
     const isAccessory = form.category === "acessorios";
     const installment = !isAccessory && form.installment_12x.trim() ? Number(form.installment_12x.replace(",", ".")) : 0;
-    if (!isAccessory && !isFinite(installment) || installment < 0) { toast.error("Valor da parcela inválido"); setSaving(false); return; }
+    const installment18 = !isAccessory && form.installment_18x.trim() ? Number(form.installment_18x.replace(",", ".")) : 0;
+    if (!isAccessory && (!isFinite(installment) || installment < 0 || !isFinite(installment18) || installment18 < 0)) {
+      toast.error("Valor da parcela inválido"); setSaving(false); return;
+    }
     const payload = {
       name: form.name.trim(),
       category: form.category,
       price,
       installment_12x: installment,
+      installment_18x: installment18,
       installment_label: isAccessory ? form.installment_label.trim().slice(0, 60) : "",
       description: form.description,
       specs: mergedSpecs(form),
