@@ -163,6 +163,12 @@ function Header({ settings }: { settings: StoreSettings | null | undefined }) {
   );
 }
 
+function installmentValue(product: Product, n: 12 | 18): number {
+  const custom = n === 12 ? product.installment_12x : product.installment_18x;
+  return custom && custom > 0 ? custom : product.price / n;
+}
+
+
 export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const [failed, setFailed] = useState(false);
   const cls = size === "sm" ? "h-7" : size === "lg" ? "h-20 sm:h-24 lg:h-28" : "h-10 sm:h-11";
