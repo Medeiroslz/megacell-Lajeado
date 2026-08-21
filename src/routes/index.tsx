@@ -485,7 +485,8 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
               product.installment_label && <div className="text-[11px] text-muted-foreground mt-0.5">{product.installment_label}</div>
             ) : (
               <div className="text-[11px] text-muted-foreground mt-0.5">
-                ou 18x de <span className="font-medium text-foreground">{formatBRL(product.installment_12x && product.installment_12x > 0 ? product.installment_12x : product.price / 18)}</span>
+                12x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 12))}</span>
+                {" ou "}18x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 18))}</span>
               </div>
             )}
           </div>
@@ -556,7 +557,8 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
                 product.installment_label && <div className="text-sm text-muted-foreground mt-1">{product.installment_label}</div>
               ) : (
                 <div className="text-sm text-muted-foreground mt-1">
-                  ou 18x de <span className="font-medium text-foreground">{formatBRL(product.installment_12x && product.installment_12x > 0 ? product.installment_12x : product.price / 18)}</span>
+                  12x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 12))}</span>
+                  {" ou "}18x de <span className="font-medium text-foreground">{formatBRL(installmentValue(product, 18))}</span>
                 </div>
               )}
             </div>
