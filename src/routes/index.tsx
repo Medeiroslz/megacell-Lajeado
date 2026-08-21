@@ -163,12 +163,29 @@ function Header({ settings }: { settings: StoreSettings | null | undefined }) {
   );
 }
 
-export function Logo({ size = "md" }: { size?: "sm" | "md" }) {
-  const cls = size === "sm" ? "h-7" : "h-10 sm:h-11";
+export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+  const [failed, setFailed] = useState(false);
+  const cls = size === "sm" ? "h-7" : size === "lg" ? "h-20 sm:h-24 lg:h-28" : "h-10 sm:h-11";
+  if (failed) {
+    return (
+      <span className={`font-display font-bold leading-none tracking-tight ${size === "lg" ? "text-4xl sm:text-5xl" : "text-xl"}`}>
+        <span className="text-brand">MEGA</span> <span className="text-primary">CELL</span>
+      </span>
+    );
+  }
   return (
-    <img src={logoAsset.url} alt="Mega Cell" className={`${cls} w-auto select-none`} draggable={false} />
+    <img
+      src={logoAsset.url}
+      alt="Mega Cell"
+      width={2701}
+      height={857}
+      onError={() => setFailed(true)}
+      className={`${cls} w-auto select-none ${size === "lg" ? "mx-auto drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]" : ""}`}
+      draggable={false}
+    />
   );
 }
+
 
 
 function BrandIcons({ className = "" }: { className?: string }) {
@@ -203,11 +220,10 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
       <div className="flex flex-col items-center gap-4">
       <div className="space-y-3">
           <h1 className="sr-only">Mega Cell — iPhones em Lajeado, RS</h1>
-          <img
-            src={logoAsset.url}
-            alt="Mega Cell"
-            className="mx-auto h-20 w-auto sm:h-24 lg:h-28 drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
-          />
+          <div className="flex justify-center">
+            <Logo size="lg" />
+          </div>
+
           <p className="text-xl font-medium text-foreground/80 sm:text-2xl lg:text-3xl font-display">
             {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
           </p>
