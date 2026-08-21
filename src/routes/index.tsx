@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState, useEffect } from "react";
 import {
   Search, MapPin, Instagram, ShieldCheck, ChevronLeft, ChevronRight, Wrench, X,
-  Apple, Smartphone, Gamepad2, Joystick, MessageCircle, CreditCard, Banknote, Zap, Store,
+  Apple, Smartphone, Gamepad2, Joystick, CreditCard, Banknote, Zap, Store,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
