@@ -220,11 +220,10 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
       <div className="flex flex-col items-center gap-4">
       <div className="space-y-3">
           <h1 className="sr-only">Mega Cell — iPhones em Lajeado, RS</h1>
-          <img
-            src={logoAsset.url}
-            alt="Mega Cell"
-            className="mx-auto h-20 w-auto sm:h-24 lg:h-28 drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
-          />
+          <div className="flex justify-center">
+            <Logo size="lg" />
+          </div>
+
           <p className="text-xl font-medium text-foreground/80 sm:text-2xl lg:text-3xl font-display">
             {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
           </p>
