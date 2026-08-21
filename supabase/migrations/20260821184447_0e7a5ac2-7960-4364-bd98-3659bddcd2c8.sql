@@ -1,0 +1,1 @@
+ALTER TABLE public.products ADD COLUMN IF NOT EXISTS installment_18x numeric NOT NULL DEFAULT 0;
