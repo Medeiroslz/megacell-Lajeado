@@ -201,17 +201,18 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
       <div className="absolute left-1/2 top-0 -z-10 h-[250px] w-[400px] -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]" />
       
       <div className="flex flex-col items-center gap-4">
-      <div className="space-y-2">
-          <h1 className="text-center text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            <span className="inline-block">
-              <span className="text-brand">MEGA</span> <span className="text-primary">CELL</span>
-            </span>
-            <span className="block text-xl font-medium text-foreground/80 mt-3 sm:text-2xl lg:text-3xl">
-              {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
-            </span>
-          </h1>
+      <div className="space-y-3">
+          <h1 className="sr-only">Mega Cell — iPhones em Lajeado, RS</h1>
+          <img
+            src={logoAsset.url}
+            alt="Mega Cell"
+            className="mx-auto h-20 w-auto sm:h-24 lg:h-28 drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]"
+          />
+          <p className="text-xl font-medium text-foreground/80 sm:text-2xl lg:text-3xl font-display">
+            {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
+          </p>
           <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
-            iPhones e acessórios com procedência garantida em Lajeado/RS. Duas lojas físicas para você conhecer de perto
+            iPhones e acessórios com procedência garantida em Lajeado/RS. Loja física em Lajeado para você conhecer de perto
             e atendimento rápido pelo WhatsApp.
           </p>
           <BrandIcons className="mt-1 inline-flex justify-center text-muted-foreground" />
@@ -223,8 +224,9 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
             <span className="text-muted-foreground font-medium">produtos no estoque</span>
           </div>
           <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
-            <Store className="h-4 w-4 text-primary" /> 2 lojas físicas em Lajeado
+            <Store className="h-4 w-4 text-primary" /> Loja física em Lajeado
           </div>
+
           {settings?.city_state && (
             <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
               <MapPin className="h-4 w-4 text-primary" /> {settings.city_state}
