@@ -566,7 +566,7 @@ function PreviewCard({ form }: { form: FormState }) {
               form.installment_label.trim() && <div className="text-[11px] text-muted-foreground mt-0.5">{form.installment_label}</div>
             ) : (
               <div className="text-[11px] text-muted-foreground mt-0.5">
-                ou 18x de {formatBRL(Number(form.installment_12x.replace(",", ".")) || price / 18)}
+                12x de {formatBRL(Number(form.installment_12x.replace(",", ".")) || price / 12)} ou 18x de {formatBRL(Number(form.installment_18x.replace(",", ".")) || price / 18)}
               </div>
             )}
           </div>
