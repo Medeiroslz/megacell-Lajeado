@@ -18,7 +18,7 @@ import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
 import { toast } from "sonner";
 import { useProductImageUrls } from "@/lib/product-images";
 import { Testimonials } from "@/components/Testimonials";
-import logoAsset from "@/assets/megacell-logo.png.asset.json";
+import logo from "@/assets/logo.png";
 
 
 export const Route = createFileRoute("/")({
@@ -175,7 +175,7 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   }
   return (
     <img
-      src={logoAsset.url}
+      src={logo}
       alt="Mega Cell"
       width={2701}
       height={857}
