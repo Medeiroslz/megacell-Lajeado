@@ -215,6 +215,7 @@ type FormState = {
   category: Category;
   price: string;
   installment_12x: string;
+  installment_18x: string;
   installment_label: string;
   description: string;
   specs: Record<string, string>;
@@ -273,17 +274,18 @@ function mergedSpecs(form: FormState): Record<string, string> {
 
 function emptyForm(): FormState {
   const { specs } = splitSpecs("iphone");
-  return { name: "", category: "iphone", price: "", installment_12x: "", installment_label: "", description: "", specs, extrasText: "", images: [], is_available: true, cta_url: "", cta_url_luisa: "", cta_label: "Falar no WhatsApp" };
+  return { name: "", category: "iphone", price: "", installment_12x: "", installment_18x: "", installment_label: "", description: "", specs, extrasText: "", images: [], is_available: true, cta_url: "", cta_url_luisa: "", cta_label: "Falar no WhatsApp" };
 }
 
 function buildWhatsAppLink(form: FormState, phone: string): string {
   const specs = mergedSpecs(form);
   const price = Number(form.price.replace(",", ".")) || 0;
   const isAccessory = form.category === "acessorios";
-  const installment = Number(form.installment_12x.replace(",", ".")) || price / 18;
+  const p12 = Number(form.installment_12x.replace(",", ".")) || price / 12;
+  const p18 = Number(form.installment_18x.replace(",", ".")) || price / 18;
   const paymentPart = isAccessory
     ? (form.installment_label.trim() ? `(${form.installment_label.trim()})` : "")
-    : `ou em 18x de ${formatBRL(installment)} no cartao`;
+    : `ou em 12x de ${formatBRL(p12)} ou 18x de ${formatBRL(p18)} no cartao`;
   const parts = [
     "Ola Mega Cell, tenho interesse no",
     form.name,
