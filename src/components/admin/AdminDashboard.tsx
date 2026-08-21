@@ -410,13 +410,18 @@ function ProductFormDialog({ product, onClose, onSaved }: { product: Product | n
               </Field>
             </div>
             {form.category === "acessorios" ? (
-              <Field label="Parcelamento (texto livre)" hint="Aparece no card no lugar de '18x de R$ ...'. Ex.: 'à vista', '2x sem juros', 'sem parcelamento'. Deixe em branco para ocultar.">
+              <Field label="Parcelamento (texto livre)" hint="Aparece no card no lugar das parcelas. Ex.: 'à vista', '2x sem juros', 'sem parcelamento'. Deixe em branco para ocultar.">
                 <Input value={form.installment_label} onChange={(e) => setForm({ ...form, installment_label: e.target.value })} className="bg-background" placeholder="à vista" maxLength={60} />
               </Field>
             ) : (
-              <Field label="Valor da parcela em 18x (R$)" hint="Aparece no card como '18x de R$ ...'. Deixe em branco para calcular automaticamente (preço ÷ 18).">
-                <Input inputMode="decimal" value={form.installment_12x} onChange={(e) => setForm({ ...form, installment_12x: e.target.value })} className="bg-background" placeholder="0,00" />
-              </Field>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Field label="Valor da parcela em 12x (R$)" hint="Deixe em branco para calcular automaticamente (preço ÷ 12).">
+                  <Input inputMode="decimal" value={form.installment_12x} onChange={(e) => setForm({ ...form, installment_12x: e.target.value })} className="bg-background" placeholder="0,00" />
+                </Field>
+                <Field label="Valor da parcela em 18x (R$)" hint="Deixe em branco para calcular automaticamente (preço ÷ 18).">
+                  <Input inputMode="decimal" value={form.installment_18x} onChange={(e) => setForm({ ...form, installment_18x: e.target.value })} className="bg-background" placeholder="0,00" />
+                </Field>
+              </div>
             )}
             <Field label="Descrição">
               <Textarea rows={4} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="bg-background" />
