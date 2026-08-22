@@ -435,7 +435,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
           </div>
         ) : (
           <div className="grid h-full w-full place-items-center text-sm font-medium text-muted-foreground">
-            Solicitar foto para o vendedor
+            Solicitar fotos
           </div>
         )}
         <span className="absolute left-3 top-3 rounded-full bg-background/80 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground backdrop-blur">
@@ -525,7 +525,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
               <img src={imgs[idx]} alt={product.name} className="h-full w-full object-cover" />
             ) : (
               <div className="grid h-full w-full place-items-center text-sm font-medium text-muted-foreground">
-                Solicitar foto para o vendedor
+                Solicitar fotos
               </div>
             )}
             {imgs.length > 1 && (
