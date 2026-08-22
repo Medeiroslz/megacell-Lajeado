@@ -546,7 +546,7 @@ function PreviewCard({ form }: { form: FormState }) {
   return (
     <div className="surface-card overflow-hidden">
       <div className="relative aspect-square w-full overflow-hidden bg-surface-elevated">
-        {cover ? <img src={cover} alt="" className="h-full w-full object-cover" /> : <div className="grid h-full w-full place-items-center text-muted-foreground">Sem foto</div>}
+        {cover ? <img src={cover} alt="" className="h-full w-full object-cover" /> : <div className="grid h-full w-full place-items-center text-muted-foreground">Solicitar fotos</div>}
         <span className="absolute left-3 top-3 rounded-full bg-background/80 px-2.5 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">
           {categoryLabel(form.category)}
         </span>
