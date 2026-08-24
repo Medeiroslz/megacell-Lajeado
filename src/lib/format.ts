@@ -11,6 +11,7 @@ export function categoryLabel(cat: string): string {
     case "ipad": return "iPad";
     case "watch": return "Apple Watch";
     case "acessorios": return "Acessórios";
+    case "xiaomi": return "Xiaomi";
     default: return cat;
   }
 }

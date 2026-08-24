@@ -37,6 +37,7 @@ type SortKey = "price_desc" | "price_asc" | "category";
 const TABS: { id: "all" | Category; label: string }[] = [
   { id: "all", label: "Todos" },
   { id: "iphone", label: "iPhones" },
+  { id: "xiaomi", label: "Xiaomi" },
   { id: "macbook", label: "MacBooks" },
   { id: "ipad", label: "iPads" },
   { id: "watch", label: "Apple Watches" },
@@ -87,7 +88,7 @@ function Landing() {
     if (sort === "price_desc") sorted.sort((a, b) => b.price - a.price);
     else if (sort === "price_asc") sorted.sort((a, b) => a.price - b.price);
     else {
-      const order: Category[] = ["iphone", "macbook", "ipad", "watch", "acessorios"];
+      const order: Category[] = ["iphone", "xiaomi", "macbook", "ipad", "watch", "acessorios"];
       sorted.sort((a, b) => order.indexOf(a.category) - order.indexOf(b.category) || a.price - b.price);
     }
     return sorted;

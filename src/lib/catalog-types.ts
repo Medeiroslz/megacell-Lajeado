@@ -1,4 +1,4 @@
-export type Category = "iphone" | "macbook" | "ipad" | "watch" | "acessorios";
+export type Category = "iphone" | "macbook" | "ipad" | "watch" | "acessorios" | "xiaomi";
 
 export interface Product {
   id: string;
