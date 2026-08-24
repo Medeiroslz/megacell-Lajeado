@@ -22,7 +22,7 @@ import type { Product, StoreSettings, Category, Depoimento } from "@/lib/catalog
 import { normalizeProductImageValue, useProductImageUrl } from "@/lib/product-images";
 import { DEPOIMENTOS_BUCKET, depoimentoImageUrl } from "@/lib/depoimento-images";
 
-const CATEGORIES: Category[] = ["iphone", "macbook", "ipad", "watch", "acessorios"];
+const CATEGORIES: Category[] = ["iphone", "xiaomi", "macbook", "ipad", "watch", "acessorios"];
 
 export function AdminDashboard({ user }: { user: User }) {
   const [tab, setTab] = useState<"products" | "depoimentos" | "settings">("products");
@@ -234,6 +234,7 @@ const SELLERS = {
 
 const SPECS_FIELDS: Record<Category, string[]> = {
   iphone: ["Armazenamento", "Cor", "Bateria", "Garantia", "Condição", "Acessórios"],
+  xiaomi: ["Armazenamento", "Cor", "Bateria", "Garantia", "Condição", "Acessórios"],
   macbook: ["Processador", "Memória RAM", "Armazenamento", "Tela", "Cor", "Ciclos de bateria", "Condição", "Garantia"],
   ipad: ["Armazenamento", "Conectividade", "Cor", "Tela", "Bateria", "Condição", "Garantia"],
   watch: ["Tamanho", "Caixa", "Pulseira", "Conectividade", "Bateria", "Condição", "Garantia"],
