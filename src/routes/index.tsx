@@ -25,9 +25,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Mega Cell — iPhones em Lajeado, RS" },
-      { name: "description", content: "iPhones e acessórios na Mega Cell, Lajeado/RS. Loja física em Lajeado, atendimento rápido no WhatsApp e estoque atualizado." },
+      { name: "description", content: "iPhones e acessórios na Mega Cell, Lajeado/RS. Loja Física, atendimento rápido no WhatsApp e estoque atualizado." },
       { property: "og:title", content: "Mega Cell — iPhones em Lajeado, RS" },
-      { property: "og:description", content: "iPhones e acessórios na Mega Cell, Lajeado/RS. Loja física em Lajeado, atendimento rápido no WhatsApp e estoque atualizado." },
+      { property: "og:description", content: "iPhones e acessórios na Mega Cell, Lajeado/RS. Loja Física, atendimento rápido no WhatsApp e estoque atualizado." },
     ],
   }),
   component: Landing,
@@ -235,7 +235,7 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
             {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
           </p>
           <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
-            iPhones e acessórios com procedência garantida em Lajeado/RS. Loja física em Lajeado para você conhecer de perto
+            iPhones e acessórios com procedência garantida em Lajeado/RS. Loja Física para você conhecer de perto
             e atendimento rápido pelo WhatsApp.
           </p>
           <BrandIcons className="mt-1 inline-flex justify-center text-muted-foreground" />
@@ -247,7 +247,7 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
             <span className="text-muted-foreground font-medium">produtos no estoque</span>
           </div>
           <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
-            <Store className="h-4 w-4 text-primary" /> Loja física em Lajeado
+            <Store className="h-4 w-4 text-primary" /> Loja Física
           </div>
 
           {settings?.city_state && (
