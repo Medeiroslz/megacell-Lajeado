@@ -40,7 +40,7 @@ const TABS: { id: "all" | Category; label: string }[] = [
   { id: "xiaomi", label: "Xiaomi" },
   { id: "macbook", label: "MacBooks" },
   { id: "ipad", label: "iPads" },
-  { id: "watch", label: "Apple Watches" },
+  { id: "watch", label: "Apple Watch's" },
   { id: "acessorios", label: "Acessórios" },
 ];
 
