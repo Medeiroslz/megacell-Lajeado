@@ -200,8 +200,8 @@ export function PreorderManager() {
         <F label="Texto do botão de solicitação">
           <Input value={form.cta_label ?? ""} onChange={(e) => setForm({ ...form, cta_label: e.target.value })} className="bg-background" />
         </F>
-        <F label="URL WhatsApp da pré-venda" hint="A mensagem com o brinde escolhido é adicionada automaticamente.">
-          <Input value={form.whatsapp_url ?? ""} onChange={(e) => setForm({ ...form, whatsapp_url: e.target.value })} className="bg-background" placeholder="https://wa.me/5551982752030" />
+        <F label="URL WhatsApp da pré-venda" hint="Destino: Kelly (wa.me/5551982474584). A mensagem com o brinde escolhido é adicionada automaticamente.">
+          <Input value={form.whatsapp_url ?? ""} onChange={(e) => setForm({ ...form, whatsapp_url: e.target.value })} className="bg-background" placeholder="https://wa.me/5551982474584" />
         </F>
 
         <div className="flex justify-end">
