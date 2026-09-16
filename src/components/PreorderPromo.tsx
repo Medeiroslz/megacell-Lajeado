@@ -67,7 +67,7 @@ export function PreorderPromo() {
         className="group relative h-auto overflow-hidden rounded-[var(--radius-xl)] bg-brand px-5 py-3 text-brand-foreground shadow-lg shadow-brand/25 hover:bg-brand/90"
       >
         <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-        <Sparkles className="mr-2 h-4 w-4" /> {cfg.button_label || "Pré-venda iPhone 18"}
+        <Smartphone className="mr-2 h-4 w-4" /> {cfg.button_label || "Pré-venda iPhone 18"}
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
