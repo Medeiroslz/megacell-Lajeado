@@ -47,11 +47,12 @@ export function AdminDashboard({ user }: { user: User }) {
         <div className="mx-auto flex max-w-6xl gap-2 px-4">
           <TabBtn active={tab === "products"} onClick={() => setTab("products")}>Produtos</TabBtn>
           <TabBtn active={tab === "depoimentos"} onClick={() => setTab("depoimentos")}>Depoimentos</TabBtn>
+          <TabBtn active={tab === "preorder"} onClick={() => setTab("preorder")}>Pré-venda</TabBtn>
           <TabBtn active={tab === "settings"} onClick={() => setTab("settings")}>Configurações</TabBtn>
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-4 py-8">
-        {tab === "products" ? <ProductsManager /> : tab === "depoimentos" ? <DepoimentosManager /> : <SettingsManager />}
+        {tab === "products" ? <ProductsManager /> : tab === "depoimentos" ? <DepoimentosManager /> : tab === "preorder" ? <PreorderManager /> : <SettingsManager />}
       </main>
     </div>
   );
