@@ -51,6 +51,7 @@ export type Database = {
           created_at: string
           cta_label: string
           deposit_info: string
+          gift_images: Json
           gifts: string[]
           id: string
           image_path: string
@@ -67,6 +68,7 @@ export type Database = {
           created_at?: string
           cta_label?: string
           deposit_info?: string
+          gift_images?: Json
           gifts?: string[]
           id?: string
           image_path?: string
@@ -83,6 +85,7 @@ export type Database = {
           created_at?: string
           cta_label?: string
           deposit_info?: string
+          gift_images?: Json
           gifts?: string[]
           id?: string
           image_path?: string
