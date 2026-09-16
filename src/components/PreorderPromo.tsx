@@ -65,7 +65,7 @@ export function PreorderPromo() {
     <>
       <Button
         onClick={() => setOpen(true)}
-        className="group relative h-auto overflow-hidden rounded-[var(--radius-xl)] bg-brand px-5 py-3 text-brand-foreground shadow-lg shadow-brand/25 hover:bg-brand/90"
+        className="group relative h-auto overflow-hidden rounded-[var(--radius-xl)] bg-cherry px-5 py-3 text-white shadow-lg shadow-cherry/25 hover:bg-cherry/90"
       >
         <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
         <Smartphone className="mr-2 h-4 w-4" /> {cfg.button_label || "Pré-venda iPhone 18"}
