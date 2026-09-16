@@ -266,6 +266,7 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
           >
             <Wrench className="mr-2 h-4 w-4" /> Solicitar reparo
           </Button>
+          <PreorderPromo />
         </div>
       </div>
     </section>
