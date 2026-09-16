@@ -34,6 +34,11 @@
   --color-surface-elevated: var(--surface-elevated);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-preorder: var(--preorder);
+  --color-preorder-foreground: var(--preorder-foreground);
+  --color-preorder-surface: var(--preorder-surface);
+  --color-preorder-muted: var(--preorder-muted);
+  --color-preorder-border: var(--preorder-border);
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -64,6 +69,11 @@
   --border: oklch(0.929 0.011 256.7);
   --input: oklch(0.929 0.011 256.7);
   --ring: oklch(0.622 0.137 241.3 / 45%);
+  --preorder: oklch(0.12 0.006 260);
+  --preorder-foreground: oklch(0.985 0 0);
+  --preorder-surface: oklch(0.19 0.008 260);
+  --preorder-muted: oklch(0.76 0.01 260);
+  --preorder-border: oklch(0.34 0.012 260);
 }
 
 @layer base {

@@ -29,6 +29,7 @@ export function PreorderManager() {
   const [initialized, setInitialized] = useState(false);
   const [giftsText, setGiftsText] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [uploadingGift, setUploadingGift] = useState<string | null>(null);
 
   if (q.data && !initialized) {
     setForm(q.data);
@@ -39,6 +40,7 @@ export function PreorderManager() {
   const payload = () => ({
     ...form,
     gifts: giftsText.split("\n").map((g) => g.trim()).filter(Boolean),
+    gift_images: form.gift_images ?? {},
   });
 
   const save = useMutation({
@@ -75,6 +77,33 @@ export function PreorderManager() {
     toast.success("Foto enviada — clique em Salvar");
   };
 
+  const uploadGiftImage = async (giftName: string, files: FileList | null) => {
+    const file = files?.[0];
+    if (!file) return;
+    setUploadingGift(giftName);
+    const ext = file.name.split(".").pop() ?? "jpg";
+    const path = `preorder/gifts/${crypto.randomUUID()}.${ext}`;
+    const { error } = await supabase.storage.from("product-images").upload(path, file, {
+      contentType: file.type,
+      upsert: false,
+    });
+    setUploadingGift(null);
+    if (error) { toast.error(error.message); return; }
+    setForm((current) => ({
+      ...current,
+      gift_images: { ...(current.gift_images ?? {}), [giftName]: path },
+    }));
+    toast.success("Foto do brinde enviada — clique em Salvar");
+  };
+
+  const removeGiftImage = (giftName: string) => {
+    setForm((current) => {
+      const nextImages = { ...(current.gift_images ?? {}) };
+      delete nextImages[giftName];
+      return { ...current, gift_images: nextImages };
+    });
+  };
+
   if (q.isLoading) return <div className="text-muted-foreground">Carregando…</div>;
 
   const preview = form.image_path ? resolveProductImageUrlSync(form.image_path) : "";
@@ -109,6 +138,41 @@ export function PreorderManager() {
         <F label="Brindes" hint="Um brinde por linha. O cliente escolhe um antes de solicitar.">
           <Textarea rows={4} value={giftsText} onChange={(e) => setGiftsText(e.target.value)} className="bg-background" />
         </F>
+        {giftsText.split("\n").map((g) => g.trim()).filter(Boolean).length > 0 && (
+          <F label="Fotos dos brindes" hint="Opcional. A foto aparecerá junto à escolha de cada brinde.">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {giftsText.split("\n").map((g) => g.trim()).filter(Boolean).map((giftName) => {
+                const giftPath = form.gift_images?.[giftName];
+                return (
+                  <div key={giftName} className="rounded-[var(--radius-lg)] border border-border p-3">
+                    <div className="flex items-center gap-3">
+                      {giftPath ? (
+                        <img src={resolveProductImageUrlSync(giftPath)} alt={giftName} className="h-16 w-16 rounded-[var(--radius-md)] bg-surface object-cover" />
+                      ) : (
+                        <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[var(--radius-md)] bg-surface text-xs text-muted-foreground">Sem foto</div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium">{giftName}</p>
+                        <div className="mt-2 flex items-center gap-2">
+                          <label className="inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radius-md)] border border-border px-2.5 py-1.5 text-xs">
+                            <Upload className="h-3.5 w-3.5" />
+                            {uploadingGift === giftName ? "Enviando…" : giftPath ? "Trocar" : "Adicionar"}
+                            <input type="file" accept="image/*" className="hidden" disabled={uploadingGift !== null} onChange={(e) => { uploadGiftImage(giftName, e.target.files); e.target.value = ""; }} />
+                          </label>
+                          {giftPath && (
+                            <Button type="button" variant="ghost" size="icon" onClick={() => removeGiftImage(giftName)} aria-label={`Remover foto de ${giftName}`} className="h-8 w-8">
+                              <X className="h-3.5 w-3.5" />
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </F>
+        )}
         <F label="Foto do aparelho">
           <div className="flex items-center gap-3">
             {preview && (

@@ -44,6 +44,7 @@ export interface PreorderSettings {
   image_path: string;
   deposit_info: string;
   gifts: string[];
+  gift_images: Record<string, string>;
   agree_label: string;
   cta_label: string;
   whatsapp_url: string;
