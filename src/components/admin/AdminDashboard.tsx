@@ -25,7 +25,7 @@ import { DEPOIMENTOS_BUCKET, depoimentoImageUrl } from "@/lib/depoimento-images"
 const CATEGORIES: Category[] = ["iphone", "xiaomi", "macbook", "ipad", "watch", "acessorios"];
 
 export function AdminDashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<"products" | "depoimentos" | "settings">("products");
+  const [tab, setTab] = useState<"products" | "depoimentos" | "preorder" | "settings">("products");
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border bg-surface">
