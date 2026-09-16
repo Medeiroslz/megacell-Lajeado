@@ -18,6 +18,7 @@ import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
 import { toast } from "sonner";
 import { useProductImageUrls } from "@/lib/product-images";
 import { Testimonials } from "@/components/Testimonials";
+import { PreorderPromo } from "@/components/PreorderPromo";
 import logo from "@/assets/logo.png";
 
 
