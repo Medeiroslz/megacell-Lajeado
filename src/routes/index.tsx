@@ -196,12 +196,14 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
 
 
 function BrandIcons({ className = "" }: { className?: string }) {
+  const hover =
+    "cursor-pointer transition-all duration-200 ease-out hover:scale-125 hover:-translate-y-0.5 hover:text-brand hover:drop-shadow-[0_3px_6px_color-mix(in_oklab,var(--brand)_35%,transparent)]";
   return (
     <span aria-hidden="true" className={`items-center gap-2 opacity-70 ${className}`}>
-      <Apple className="h-4 w-4" />
-      <Smartphone className="h-4 w-4" />
-      <Gamepad2 className="h-4 w-4" />
-      <Joystick className="h-4 w-4" />
+      <Apple className={`h-4 w-4 ${hover}`} />
+      <Smartphone className={`h-4 w-4 ${hover}`} />
+      <Gamepad2 className={`h-4 w-4 ${hover}`} />
+      <Joystick className={`h-4 w-4 ${hover}`} />
     </span>
   );
 }
