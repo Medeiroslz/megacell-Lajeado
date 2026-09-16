@@ -34,6 +34,7 @@
   --color-surface-elevated: var(--surface-elevated);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-cherry: var(--cherry);
   --color-preorder: var(--preorder);
   --color-preorder-foreground: var(--preorder-foreground);
   --color-preorder-surface: var(--preorder-surface);
@@ -64,6 +65,7 @@
   --accent-foreground: oklch(0.322 0.025 255.7);
   --brand: oklch(0.651 0.183 38.6);             /* laranja-avermelhado (CTA) */
   --brand-foreground: oklch(1 0 0);
+  --cherry: #D20A2E;                            /* cherry (iPhone 18 Pro Max) */
   --destructive: oklch(0.59 0.179 37.7);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.929 0.011 256.7);
