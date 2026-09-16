@@ -21,6 +21,7 @@ import { formatBRL, categoryLabel, isValidUrl, safeOpenUrl } from "@/lib/format"
 import type { Product, StoreSettings, Category, Depoimento } from "@/lib/catalog-types";
 import { normalizeProductImageValue, useProductImageUrl } from "@/lib/product-images";
 import { DEPOIMENTOS_BUCKET, depoimentoImageUrl } from "@/lib/depoimento-images";
+import { PreorderManager } from "@/components/admin/PreorderManager";
 
 const CATEGORIES: Category[] = ["iphone", "xiaomi", "macbook", "ipad", "watch", "acessorios"];
 
