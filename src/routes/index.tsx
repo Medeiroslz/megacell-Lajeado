@@ -18,6 +18,7 @@ import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
 import { toast } from "sonner";
 import { useProductImageUrls } from "@/lib/product-images";
 import { Testimonials } from "@/components/Testimonials";
+import { PreorderPromo } from "@/components/PreorderPromo";
 import logo from "@/assets/logo.png";
 
 
@@ -266,6 +267,7 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
           >
             <Wrench className="mr-2 h-4 w-4" /> Solicitar reparo
           </Button>
+          <PreorderPromo />
         </div>
       </div>
     </section>

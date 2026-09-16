@@ -44,6 +44,57 @@ export type Database = {
         }
         Relationships: []
       }
+      preorder_settings: {
+        Row: {
+          agree_label: string
+          button_label: string
+          created_at: string
+          cta_label: string
+          deposit_info: string
+          gifts: string[]
+          id: string
+          image_path: string
+          is_active: boolean
+          rules: string
+          subtitle: string
+          title: string
+          updated_at: string
+          whatsapp_url: string
+        }
+        Insert: {
+          agree_label?: string
+          button_label?: string
+          created_at?: string
+          cta_label?: string
+          deposit_info?: string
+          gifts?: string[]
+          id?: string
+          image_path?: string
+          is_active?: boolean
+          rules?: string
+          subtitle?: string
+          title?: string
+          updated_at?: string
+          whatsapp_url?: string
+        }
+        Update: {
+          agree_label?: string
+          button_label?: string
+          created_at?: string
+          cta_label?: string
+          deposit_info?: string
+          gifts?: string[]
+          id?: string
+          image_path?: string
+          is_active?: boolean
+          rules?: string
+          subtitle?: string
+          title?: string
+          updated_at?: string
+          whatsapp_url?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: string
