@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#1D8FD1"/>
-  <text x="32" y="30" font-family="Verdana,DejaVu Sans,sans-serif" font-size="20" font-weight="700" fill="#E85D2C" text-anchor="middle">M</text>
-  <text x="32" y="52" font-family="Verdana,DejaVu Sans,sans-serif" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">C</text>
+  <!-- iPhone body -->
+  <rect x="18" y="10" width="28" height="44" rx="7" fill="#161C26"/>
+  <!-- screen -->
+  <rect x="20.5" y="15" width="23" height="34" rx="4.5" fill="#FFFFFF"/>
+  <!-- dynamic island -->
+  <rect x="28" y="17" width="8" height="3.5" rx="1.75" fill="#161C26"/>
+  <!-- home indicator -->
+  <rect x="27" y="51.5" width="10" height="1.6" rx="0.8" fill="#3A4353"/>
+  <!-- "M" Mega accent on screen -->
+  <text x="32" y="40" font-family="Verdana,DejaVu Sans,sans-serif" font-size="14" font-weight="700" fill="#E85D2C" text-anchor="middle">M</text>
 </svg>
