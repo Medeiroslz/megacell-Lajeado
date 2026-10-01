@@ -509,7 +509,10 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
 function ProductModal({ product, onClose }: { product: Product | null; onClose: () => void }) {
   const [idx, setIdx] = useState(0);
   const imgs = useProductImageUrls(product?.images);
-  useEffect(() => { setIdx(0); }, [product?.id]);
+  useEffect(() => {
+    setIdx(0);
+    if (product) trackView({ product_id: product.id, product_name: product.name });
+  }, [product?.id]);
   if (!product) return null;
   const next = () => setIdx((i) => (i + 1) % Math.max(imgs.length, 1));
   const prev = () => setIdx((i) => (i - 1 + Math.max(imgs.length, 1)) % Math.max(imgs.length, 1));
