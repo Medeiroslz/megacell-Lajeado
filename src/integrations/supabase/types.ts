@@ -14,6 +14,110 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          path: string
+          product_id: string | null
+          product_name: string | null
+          session_id: string
+          title: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          path?: string
+          product_id?: string | null
+          product_name?: string | null
+          session_id: string
+          title?: string
+          visitor_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          path?: string
+          product_id?: string | null
+          product_name?: string | null
+          session_id?: string
+          title?: string
+          visitor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "analytics_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      analytics_sessions: {
+        Row: {
+          browser: string
+          country: string
+          device_type: string
+          duration_seconds: number
+          entry_path: string
+          id: string
+          is_bounce: boolean
+          last_seen_at: string
+          os: string
+          pageviews_count: number
+          referrer: string
+          referrer_domain: string
+          started_at: string
+          utm_campaign: string
+          utm_medium: string
+          utm_source: string
+          visitor_id: string
+        }
+        Insert: {
+          browser?: string
+          country?: string
+          device_type?: string
+          duration_seconds?: number
+          entry_path?: string
+          id: string
+          is_bounce?: boolean
+          last_seen_at?: string
+          os?: string
+          pageviews_count?: number
+          referrer?: string
+          referrer_domain?: string
+          started_at?: string
+          utm_campaign?: string
+          utm_medium?: string
+          utm_source?: string
+          visitor_id: string
+        }
+        Update: {
+          browser?: string
+          country?: string
+          device_type?: string
+          duration_seconds?: number
+          entry_path?: string
+          id?: string
+          is_bounce?: boolean
+          last_seen_at?: string
+          os?: string
+          pageviews_count?: number
+          referrer?: string
+          referrer_domain?: string
+          started_at?: string
+          utm_campaign?: string
+          utm_medium?: string
+          utm_source?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       depoimentos: {
         Row: {
           alt_text: string
@@ -262,6 +366,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      analytics_report: {
+        Args: { p_from: string; p_to: string }
+        Returns: Json
+      }
       analytics_summary: { Args: { _days: number }; Returns: Json }
     }
     Enums: {

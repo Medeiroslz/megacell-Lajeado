@@ -8,6 +8,13 @@
       "when": 1790887930918,
       "tag": "0000_page_views_analytics",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790962477391,
+      "tag": "0001_expand_analytics_like_ns_imports",
+      "breakpoints": true
     }
   ]
 }
