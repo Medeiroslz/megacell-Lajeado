@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { thumbUrl } from "@/lib/product-images";
 import { depoimentoImageUrl } from "@/lib/depoimento-images";
 import type { Depoimento } from "@/lib/catalog-types";
 
@@ -35,7 +36,7 @@ export function Testimonials() {
             {items.map((d) => (
               <figure key={d.id} className="print-card break-inside-avoid">
                 <img
-                  src={depoimentoImageUrl(d.image_path)}
+                  src={thumbUrl(depoimentoImageUrl(d.image_path), 700)}
                   alt={d.alt_text || "Avaliação de cliente da Mega Cell"}
                   loading="lazy"
                   decoding="async"

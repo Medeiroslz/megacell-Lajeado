@@ -415,7 +415,7 @@ function SellerPicker({ product, children }: { product: Product; children: React
 }
 
 function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void }) {
-  const imgs = useProductImageUrls(product.images);
+  const imgs = useProductImageUrls(product.images, 700);
   const [idx, setIdx] = useState(0);
   const hasMany = imgs.length > 1;
   const cover = imgs[idx];
@@ -442,7 +442,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
       >
         {imgs.length > 0 ? (
           <div className="relative h-full w-full">
-            {imgs.map((src, i) => (
+            {imgs.map((src, i) => i !== idx ? null : (
               <img
                 key={src}
                 src={src}
@@ -523,7 +523,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
 
 function ProductModal({ product, onClose }: { product: Product | null; onClose: () => void }) {
   const [idx, setIdx] = useState(0);
-  const imgs = useProductImageUrls(product?.images);
+  const imgs = useProductImageUrls(product?.images, 1200);
   useEffect(() => {
     setIdx(0);
     if (product) trackView({ product_id: product.id, product_name: product.name });
