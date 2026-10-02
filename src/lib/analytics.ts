@@ -3,14 +3,15 @@ import { supabase } from "@/integrations/supabase/client";
 const VISITOR_KEY = "megacell_vid";
 const SESSION_KEY = "megacell_session";
 const SESSION_TTL = 30 * 60 * 1000;
+type StoredSession = { id: string; touchedAt: number };
 
 function getIds() {
   let visitorId = localStorage.getItem(VISITOR_KEY);
   if (!visitorId) { visitorId = crypto.randomUUID(); localStorage.setItem(VISITOR_KEY, visitorId); }
-  let session: { id: string; touchedAt: number } | null = null;
-  try { session = JSON.parse(localStorage.getItem(SESSION_KEY) ?? "null") as typeof session; } catch { session = null; }
+  let session: StoredSession | null = null;
+  try { session = JSON.parse(localStorage.getItem(SESSION_KEY) ?? "null") as StoredSession | null; } catch { session = null; }
   const isNew = !session || Date.now() - session.touchedAt >= SESSION_TTL;
-  const sessionId = isNew ? crypto.randomUUID() : session.id;
+  const sessionId = !isNew && session ? session.id : crypto.randomUUID();
   localStorage.setItem(SESSION_KEY, JSON.stringify({ id: sessionId, touchedAt: Date.now() }));
   return { visitorId, sessionId, isNew };
 }
