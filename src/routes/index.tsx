@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { formatBRL, categoryLabel, safeOpenUrl } from "@/lib/format";
 import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
@@ -534,6 +534,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
   return (
     <Dialog open={!!product} onOpenChange={(o) => !o && onClose()}>
       <DialogContent showCloseButton={false} className="max-w-3xl max-h-[90vh] overflow-y-auto border-border bg-surface p-0">
+        <DialogTitle className="sr-only">Detalhes de {product.name}</DialogTitle>
         <button
           type="button"
           onClick={onClose}
