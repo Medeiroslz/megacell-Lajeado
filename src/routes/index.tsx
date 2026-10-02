@@ -436,11 +436,9 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
       onClick={onOpen}
       className="surface-card group relative flex cursor-pointer flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-[0_16px_45px_-18px_color-mix(in_oklab,var(--primary)_45%,transparent)]"
     >
-      <button
-        type="button"
+      <div
         onClick={handleImage}
         className="relative block aspect-square w-full overflow-hidden bg-surface-elevated"
-        aria-label={`Ver detalhes de ${product.name}`}
       >
         {imgs.length > 0 ? (
           <div className="relative h-full w-full">
@@ -488,7 +486,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
             </div>
           </>
         )}
-      </button>
+      </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
         <h3 className="text-base font-semibold leading-tight">{product.name}</h3>
         {product.specs && Object.keys(product.specs).length > 0 && (
