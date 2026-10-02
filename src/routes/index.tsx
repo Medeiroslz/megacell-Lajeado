@@ -239,7 +239,7 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
       <div className="relative mx-auto w-full max-w-6xl hero-reveal">
         <div className="max-w-2xl text-left text-dark-surface-foreground">
           <h1 className="sr-only">Mega Cell — iPhones em Lajeado, RS</h1>
-          <div className="flex justify-start rounded-md bg-background/95 p-4 w-fit shadow-xl">
+          <div className="flex w-fit justify-start">
             <Logo size="lg" />
           </div>
           <p className="mt-7 text-3xl font-semibold leading-tight sm:text-5xl">
