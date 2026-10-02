@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { thumbUrl } from "@/lib/product-images";
 import { depoimentoImageUrl } from "@/lib/depoimento-images";
 import type { Depoimento } from "@/lib/catalog-types";
 
@@ -21,22 +20,21 @@ export function Testimonials() {
   const items = q.data ?? [];
 
   return (
-    <section className="bg-surface">
-      <div className="mx-auto max-w-6xl px-4 py-20">
+    <section className="border-t border-border bg-surface">
+      <div className="mx-auto max-w-6xl px-4 py-14">
         <div className="text-center">
-          <p className="text-sm font-semibold uppercase text-brand">Experiências reais</p>
-          <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">O que dizem nossos <span className="text-primary">clientes</span></h2>
+          <h2 className="text-2xl font-semibold sm:text-3xl">O que dizem nossos clientes</h2>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
             Prints reais de avaliações e conversas de quem já comprou na Mega Cell.
           </p>
         </div>
 
         {items.length > 0 ? (
-          <div className="mt-12 columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5">
+          <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
             {items.map((d) => (
               <figure key={d.id} className="print-card break-inside-avoid">
                 <img
-                  src={thumbUrl(depoimentoImageUrl(d.image_path), 700)}
+                  src={depoimentoImageUrl(d.image_path)}
                   alt={d.alt_text || "Avaliação de cliente da Mega Cell"}
                   loading="lazy"
                   decoding="async"
@@ -46,8 +44,8 @@ export function Testimonials() {
             ))}
           </div>
         ) : (
-          <div className="mx-auto mt-12 max-w-md">
-            <div className="print-card p-10 text-center">
+          <div className="mx-auto mt-8 max-w-md">
+            <div className="print-card p-8 text-center">
               <div className="flex items-center justify-center gap-1 text-brand">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="h-5 w-5 fill-current" />

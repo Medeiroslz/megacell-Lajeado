@@ -57,15 +57,9 @@ export function useProductImageUrl(value: string | null | undefined): string {
   return resolveProductImageUrlSync(value);
 }
 
-export function thumbUrl(url: string, width = 800): string {
-  if (!url.includes("/storage/v1/object/public/")) return url;
-  return url.replace("/storage/v1/object/public/", "/storage/v1/render/image/public/") + `?width=${width}&quality=75&resize=contain`;
-}
-
-export function useProductImageUrls(values: string[] | null | undefined, width?: number): string[] {
+export function useProductImageUrls(values: string[] | null | undefined): string[] {
   return (values ?? [])
     .map((v) => resolveProductImageUrlSync(v))
-    .map((u) => (u && width ? thumbUrl(u, width) : u))
     .filter(Boolean);
 }
 

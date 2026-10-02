@@ -40,9 +40,6 @@
   --color-preorder-surface: var(--preorder-surface);
   --color-preorder-muted: var(--preorder-muted);
   --color-preorder-border: var(--preorder-border);
-  --color-hero-overlay: var(--hero-overlay);
-  --color-dark-surface: var(--dark-surface);
-  --color-dark-surface-foreground: var(--dark-surface-foreground);
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
@@ -79,9 +76,6 @@
   --preorder-surface: oklch(0.19 0.008 260);
   --preorder-muted: oklch(0.76 0.01 260);
   --preorder-border: oklch(0.34 0.012 260);
-  --hero-overlay: oklch(0.19 0.035 255.7 / 82%);
-  --dark-surface: oklch(0.18 0.025 255.7);
-  --dark-surface-foreground: oklch(0.985 0 0);
 }
 
 @layer base {
@@ -97,7 +91,7 @@
   }
   h1, h2, h3, .font-display {
     font-family: var(--font-display);
-    letter-spacing: 0;
+    letter-spacing: -0.015em;
   }
   ::selection {
     background: color-mix(in oklab, var(--primary) 30%, transparent);
@@ -133,17 +127,4 @@
   0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 70%, transparent); }
   70% { box-shadow: 0 0 0 8px color-mix(in oklab, var(--primary) 0%, transparent); }
   100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 0%, transparent); }
-}
-
-@keyframes hero-reveal {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@utility hero-reveal {
-  animation: hero-reveal 700ms ease-out both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-reveal { animation: none; }
 }
