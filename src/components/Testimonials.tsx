@@ -20,17 +20,18 @@ export function Testimonials() {
   const items = q.data ?? [];
 
   return (
-    <section className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-4 py-14">
+    <section className="bg-surface">
+      <div className="mx-auto max-w-6xl px-4 py-20">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold sm:text-3xl">O que dizem nossos clientes</h2>
+          <p className="text-sm font-semibold uppercase text-brand">Experiências reais</p>
+          <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">O que dizem nossos <span className="text-primary">clientes</span></h2>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
             Prints reais de avaliações e conversas de quem já comprou na Mega Cell.
           </p>
         </div>
 
         {items.length > 0 ? (
-          <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
+          <div className="mt-12 columns-1 gap-5 sm:columns-2 lg:columns-3 [&>*]:mb-5">
             {items.map((d) => (
               <figure key={d.id} className="print-card break-inside-avoid">
                 <img
@@ -44,8 +45,8 @@ export function Testimonials() {
             ))}
           </div>
         ) : (
-          <div className="mx-auto mt-8 max-w-md">
-            <div className="print-card p-8 text-center">
+          <div className="mx-auto mt-12 max-w-md">
+            <div className="print-card p-10 text-center">
               <div className="flex items-center justify-center gap-1 text-brand">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="h-5 w-5 fill-current" />
