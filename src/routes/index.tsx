@@ -203,7 +203,7 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
       width={2701}
       height={857}
       onError={() => setFailed(true)}
-      className={`${cls} w-auto select-none ${size === "lg" ? "mx-auto drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]" : ""}`}
+      className={`${cls} w-auto select-none ${size === "lg" ? "drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]" : ""}`}
       draggable={false}
     />
   );
