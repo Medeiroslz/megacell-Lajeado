@@ -512,7 +512,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
   const imgs = useProductImageUrls(product?.images);
   useEffect(() => {
     setIdx(0);
-    if (product) trackView({ product_id: product.id, product_name: product.name });
+    if (product) void trackView({ product_id: product.id, product_name: product.name });
   }, [product?.id]);
   if (!product) return null;
   const next = () => setIdx((i) => (i + 1) % Math.max(imgs.length, 1));

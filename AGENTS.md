@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Analytics events are accepted only by the validated public tracking route; raw analytics tables remain admin-readable and service-writable because public direct inserts would expose collection internals.
