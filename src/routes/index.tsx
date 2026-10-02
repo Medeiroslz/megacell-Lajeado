@@ -5,9 +5,7 @@ import { useMemo, useState, useEffect } from "react";
 import {
   Search, MapPin, Instagram, ShieldCheck, ChevronLeft, ChevronRight, Wrench, X,
   Apple, Smartphone, Gamepad2, Joystick, CreditCard, Banknote, Zap, Store,
-  MessageCircle, LayoutGrid, Laptop, Tablet, Watch, Headphones,
 } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -105,22 +103,12 @@ function Landing() {
     <main className="min-h-screen bg-background text-foreground">
       <Header settings={settings} />
       <Hero settings={settings} total={totalAvailable} loading={productsQ.isLoading} />
-      <Benefits />
-      <section id="produtos" className="mx-auto max-w-[980px] scroll-mt-24 px-4 pb-16">
-        <div className="pt-12 text-center">
-          <h2 className="text-3xl font-semibold tracking-tight">
-            Nossos <span className="text-primary">Produtos</span>
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">Escolha uma categoria e fale direto com a gente no WhatsApp.</p>
-        </div>
-        <CategoryCircles tab={tab} setTab={setTab} />
+      <section className="mx-auto max-w-6xl px-4 pb-12">
         <Filters
           search={search} setSearch={setSearch}
           sort={sort} setSort={setSort}
+          tab={tab} setTab={setTab}
         />
-        {tab !== "all" && (
-          <h3 className="mt-10 text-center text-2xl font-semibold">{TABS.find((t) => t.id === tab)?.label}</h3>
-        )}
         {productsQ.isLoading ? (
           <Loading />
         ) : productsQ.isError ? (
@@ -135,10 +123,8 @@ function Landing() {
           </div>
         )}
       </section>
-      <Testimonials />
-      <WhySection />
       <PaymentMethods />
-      <FaqSection />
+      <Testimonials />
       <Footer settings={settings} />
       <ProductModal product={modal} onClose={() => setModal(null)} />
     </main>
@@ -203,7 +189,7 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
       width={2701}
       height={857}
       onError={() => setFailed(true)}
-      className={`${cls} w-auto select-none ${size === "lg" ? "drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]" : ""}`}
+      className={`${cls} w-auto select-none ${size === "lg" ? "mx-auto drop-shadow-[0_10px_30px_rgba(0,0,0,0.12)]" : ""}`}
       draggable={false}
     />
   );
@@ -237,140 +223,53 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
     const ok = safeOpenUrl(url);
     if (!ok) toast.error("Link do WhatsApp inválido.");
   };
-  void openWhatsApp;
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary/15 via-surface to-brand/10 px-4">
-      <div aria-hidden className="absolute -right-24 top-10 h-[420px] w-[420px] rounded-full bg-primary/20 blur-[120px]" />
-      <div aria-hidden className="absolute -left-20 bottom-0 h-[300px] w-[300px] rounded-full bg-brand/15 blur-[110px]" />
-      <div className="relative mx-auto flex min-h-[560px] max-w-[980px] flex-col justify-center gap-6 pb-36 pt-14 text-center md:text-left">
-        <h1 className="sr-only">Mega Cell — iPhones em Lajeado, RS</h1>
-        <div className="flex justify-center md:justify-start">
-          <Logo size="lg" />
+    <section className="relative mx-auto max-w-6xl px-4 pt-4 pb-4 sm:pt-6 sm:pb-5 text-center overflow-hidden">
+      {/* Glow effect */}
+      <div className="absolute left-1/2 top-0 -z-10 h-[250px] w-[400px] -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]" />
+      
+      <div className="flex flex-col items-center gap-4">
+      <div className="space-y-3">
+          <h1 className="sr-only">Mega Cell — iPhones em Lajeado, RS</h1>
+          <div className="flex justify-center">
+            <Logo size="lg" />
+          </div>
+
+          <p className="text-xl font-medium text-foreground/80 sm:text-2xl lg:text-3xl font-display">
+            {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
+          </p>
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
+            iPhones e acessórios com procedência garantida em Lajeado/RS. Loja Física para você conhecer de perto
+            e atendimento rápido pelo WhatsApp.
+          </p>
+          <BrandIcons className="mt-1 inline-flex justify-center text-muted-foreground" />
         </div>
-        <p className="font-display text-2xl font-medium leading-tight sm:text-3xl md:max-w-[560px]">
-          {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
-        </p>
-        <p className="mx-auto max-w-[549px] text-base text-muted-foreground md:mx-0">
-          iPhones e acessórios com <span className="font-medium text-primary">procedência garantida</span> em Lajeado/RS.
-          {" "}{loading ? "" : `${total} produtos no estoque agora.`}
-        </p>
-        <BrandIcons className="inline-flex justify-center text-muted-foreground md:justify-start" />
-        <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
-          <a href="#produtos" className="inline-flex items-center gap-2 rounded-full border border-foreground px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5">
-            <Apple className="h-4 w-4" /> Ver produtos
-          </a>
-          <Button onClick={openRepair} className="h-auto rounded-full bg-brand px-6 py-3 text-brand-foreground hover:bg-brand/90">
+        
+        <div className="flex flex-wrap justify-center items-center gap-3 text-sm">
+          <div className="surface-card flex items-baseline gap-2 px-5 py-3 shadow-lg shadow-primary/5 border-primary/20">
+            <span className="text-3xl font-bold text-primary tabular-nums">{loading ? "—" : total}</span>
+            <span className="text-muted-foreground font-medium">produtos no estoque</span>
+          </div>
+          <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
+            <Store className="h-4 w-4 text-primary" /> Loja Física
+          </div>
+
+          {settings?.city_state && (
+            <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
+              <MapPin className="h-4 w-4 text-primary" /> {settings.city_state}
+            </div>
+          )}
+          <div className="surface-card hidden sm:inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
+            <ShieldCheck className="h-4 w-4 text-primary" /> Garantia e Procedência
+          </div>
+          <Button
+            onClick={openRepair}
+            className="h-auto rounded-[var(--radius-xl)] bg-brand px-5 py-3 text-brand-foreground hover:bg-brand/90"
+          >
             <Wrench className="mr-2 h-4 w-4" /> Solicitar reparo
           </Button>
           <PreorderPromo />
         </div>
-      </div>
-    </section>
-  );
-}
-
-function Benefits() {
-  const items = [
-    { icon: Store, text: "Loja Física em Lajeado" },
-    { icon: ShieldCheck, text: "Garantia e procedência" },
-    { icon: CreditCard, text: "Parcele em até 18x" },
-    { icon: Zap, text: "Pix com confirmação na hora" },
-    { icon: MessageCircle, text: "Atendimento rápido no WhatsApp" },
-  ];
-  return (
-    <section className="px-4">
-      <div className="relative z-10 mx-auto -mt-24 grid max-w-[980px] grid-cols-2 gap-6 rounded-[22px] border border-border bg-card px-5 py-8 shadow-[0_20px_50px_-25px_color-mix(in_oklab,var(--foreground)_35%,transparent)] sm:grid-cols-3 md:grid-cols-5">
-        {items.map(({ icon: Icon, text }) => (
-          <div key={text} className="flex flex-col items-center gap-3 text-center">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-primary/10 text-primary">
-              <Icon className="h-6 w-6" />
-            </span>
-            <h3 className="max-w-[140px] text-sm font-medium leading-snug">{text}</h3>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-const TAB_ICONS: Record<string, typeof Apple> = {
-  all: LayoutGrid, iphone: Smartphone, xiaomi: Smartphone, macbook: Laptop, ipad: Tablet, watch: Watch, acessorios: Headphones,
-};
-
-function CategoryCircles({ tab, setTab }: { tab: "all" | Category; setTab: (v: "all" | Category) => void }) {
-  return (
-    <div className="mt-10 flex flex-wrap justify-center gap-5 sm:gap-8">
-      {TABS.map((t) => {
-        const Icon = TAB_ICONS[t.id];
-        const active = t.id === tab;
-        return (
-          <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
-            className={`flex h-[110px] w-[110px] flex-col items-center justify-center gap-2 rounded-full border transition-transform hover:scale-[1.04] sm:h-[140px] sm:w-[140px] ${
-              active
-                ? "border-primary bg-gradient-to-b from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/25"
-                : "border-border bg-gradient-to-b from-card to-surface-elevated text-foreground hover:border-primary/60"
-            }`}
-          >
-            <Icon className="h-7 w-7 sm:h-9 sm:w-9" />
-            <span className="px-2 text-center text-sm sm:text-[15px]">{t.label}</span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-function WhySection() {
-  const items = [
-    ["Procedência garantida", "Todos os aparelhos são revisados e têm origem comprovada."],
-    ["Loja física", "Venha conhecer, testar e retirar seu aparelho pessoalmente em Lajeado."],
-    ["Atendimento humano", "Romulo e Kelly respondem rápido no WhatsApp e tiram todas as dúvidas."],
-    ["Assistência técnica", "Precisa de reparo? Fazemos orçamento rápido e sem compromisso."],
-  ];
-  return (
-    <section className="px-4 py-20">
-      <div className="mx-auto max-w-[980px]">
-        <h2 className="text-3xl font-semibold tracking-tight">
-          Por que comprar na <span className="text-primary">Mega Cell</span>?
-        </h2>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map(([title, text], i) => (
-            <div key={title} className="surface-card p-6">
-              <div className="font-display text-4xl font-bold text-brand">{String(i + 1).padStart(2, "0")}</div>
-              <h3 className="mt-3 font-semibold">{title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FaqSection() {
-  const faqs = [
-    ["Vocês aceitam boleto?", "Não trabalhamos com boleto. Aceitamos Pix, dinheiro e cartão em até 18x."],
-    ["Os aparelhos têm garantia?", "Sim, todos os produtos têm garantia e procedência. Consulte as condições de cada aparelho no WhatsApp."],
-    ["Onde fica a loja?", "Nossa loja física fica em Lajeado/RS. O endereço completo está no rodapé do site."],
-    ["Como faço para comprar?", "Escolha o produto, toque em “Falar no WhatsApp” e selecione Romulo ou Kelly para finalizar seu atendimento."],
-    ["Vocês fazem reparos?", "Sim! Toque em “Solicitar reparo” no topo do site para pedir um orçamento."],
-  ];
-  return (
-    <section className="px-4 pb-20">
-      <div className="mx-auto max-w-[980px]">
-        <h2 className="text-center text-3xl font-semibold tracking-tight">
-          Perguntas <span className="text-primary">frequentes</span>
-        </h2>
-        <Accordion type="single" collapsible className="mt-8 surface-card px-6">
-          {faqs.map(([q, a]) => (
-            <AccordionItem key={q} value={q}>
-              <AccordionTrigger className="text-left">{q}</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">{a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
       </div>
     </section>
   );
@@ -383,7 +282,7 @@ function PaymentMethods() {
     { icon: CreditCard, label: "Cartão até 18x", hint: "Crédito e débito" },
   ];
   return (
-    <section className="mx-auto max-w-[980px] px-4 pb-16">
+    <section className="mx-auto max-w-6xl px-4 pb-12">
       <div className="surface-card p-6 sm:p-8">
         <h2 className="text-xl font-semibold sm:text-2xl">Formas de pagamento</h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
@@ -408,32 +307,53 @@ function PaymentMethods() {
 }
 
 function Filters({
-  search, setSearch, sort, setSort,
+  search, setSearch, sort, setSort, tab, setTab,
 }: {
   search: string; setSearch: (v: string) => void;
   sort: SortKey; setSort: (v: SortKey) => void;
+  tab: "all" | Category; setTab: (v: "all" | Category) => void;
 }) {
   return (
-    <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-      <div className="relative flex-1">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar por modelo, cor ou armazenamento…"
-          className="h-11 rounded-full border-border bg-surface pl-9 text-foreground placeholder:text-muted-foreground"
-        />
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar por modelo, cor ou armazenamento…"
+            className="h-11 border-border bg-surface pl-9 text-foreground placeholder:text-muted-foreground"
+          />
+        </div>
+        <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
+          <SelectTrigger className="h-11 w-full border-border bg-surface sm:w-56">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="category">Ordem por categoria</SelectItem>
+            <SelectItem value="price_desc">Maior preço</SelectItem>
+            <SelectItem value="price_asc">Menor preço</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-      <Select value={sort} onValueChange={(v) => setSort(v as SortKey)}>
-        <SelectTrigger className="h-11 w-full rounded-full border-border bg-surface sm:w-56">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="category">Ordem por categoria</SelectItem>
-          <SelectItem value="price_desc">Maior preço</SelectItem>
-          <SelectItem value="price_asc">Menor preço</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="flex flex-wrap gap-2">
+        {TABS.map((t) => {
+          const active = t.id === tab;
+          return (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`rounded-full border px-4 py-2 text-sm transition ${
+                active
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-surface text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t.label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
