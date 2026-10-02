@@ -5,6 +5,7 @@ import { useMemo, useState, useEffect } from "react";
 import {
   Search, MapPin, Instagram, ShieldCheck, ChevronLeft, ChevronRight, Wrench, X,
   Apple, Smartphone, Gamepad2, Joystick, CreditCard, Banknote, Zap, Store,
+  Truck, BadgeCheck, Headphones, ArrowDown,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,7 @@ import { useProductImageUrls } from "@/lib/product-images";
 import { Testimonials } from "@/components/Testimonials";
 import { PreorderPromo } from "@/components/PreorderPromo";
 import logo from "@/assets/logo.png";
+import heroStore from "@/assets/mega-cell-store-hero.jpg";
 
 
 export const Route = createFileRoute("/")({
@@ -103,7 +105,13 @@ function Landing() {
     <main className="min-h-screen bg-background text-foreground">
       <Header settings={settings} />
       <Hero settings={settings} total={totalAvailable} loading={productsQ.isLoading} />
-      <section className="mx-auto max-w-6xl px-4 pb-12">
+      <BenefitsStrip />
+      <section id="catalogo" className="mx-auto max-w-6xl scroll-mt-24 px-4 pb-16 pt-14 sm:pt-20">
+        <div className="mb-10 text-center">
+          <p className="text-sm font-semibold uppercase text-brand">Estoque atualizado</p>
+          <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">Produtos <span className="text-primary">disponíveis</span></h2>
+          <p className="mt-2 text-sm text-muted-foreground">Escolha uma categoria ou encontre seu modelo pela busca.</p>
+        </div>
         <Filters
           search={search} setSearch={setSearch}
           sort={sort} setSort={setSort}
@@ -116,7 +124,7 @@ function Landing() {
         ) : filtered.length === 0 ? (
           <EmptyState hasAny={totalAvailable > 0} />
         ) : (
-          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((p) => (
               <ProductCard key={p.id} product={p} onOpen={() => setModal(p)} />
             ))}
@@ -140,24 +148,25 @@ function Header({ settings }: { settings: StoreSettings | null | undefined }) {
     return () => clearInterval(id);
   }, []);
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-3 sm:flex-row sm:justify-between">
+    <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         <div className="flex items-center gap-3">
           <Logo />
           <BrandIcons className="hidden text-muted-foreground sm:flex" />
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted-foreground">
+        <div className="flex items-center justify-end gap-2 sm:gap-3">
+          <span className="hidden items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted-foreground md:inline-flex">
             <span className="live-dot" /> Atualizado às {now}
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+          <span className="hidden items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary sm:inline-flex">
             Estoque ao vivo
           </span>
           {settings?.instagram_url && (
             <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+              aria-label="Instagram da Mega Cell"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition hover:border-primary hover:text-primary sm:w-auto sm:px-3">
               <Instagram className="h-4 w-4" />
-              {settings.instagram_handle}
+              <span className="hidden lg:inline">{settings.instagram_handle}</span>
             </a>
           )}
         </div>
@@ -224,52 +233,59 @@ function Hero({ settings, total, loading }: { settings: StoreSettings | null | u
     if (!ok) toast.error("Link do WhatsApp inválido.");
   };
   return (
-    <section className="relative mx-auto max-w-6xl px-4 pt-4 pb-4 sm:pt-6 sm:pb-5 text-center overflow-hidden">
-      {/* Glow effect */}
-      <div className="absolute left-1/2 top-0 -z-10 h-[250px] w-[400px] -translate-x-1/2 rounded-full bg-primary/10 blur-[100px]" />
-      
-      <div className="flex flex-col items-center gap-4">
-      <div className="space-y-3">
+    <section className="relative flex min-h-[560px] items-center overflow-hidden px-4 pb-24 pt-14 sm:min-h-[620px] sm:px-8">
+      <img src={heroStore} alt="Interior de uma loja moderna de smartphones" width={1920} height={1080} className="absolute inset-0 h-full w-full object-cover object-center" />
+      <div className="absolute inset-0 bg-hero-overlay" />
+      <div className="relative mx-auto w-full max-w-6xl hero-reveal">
+        <div className="max-w-2xl text-left text-dark-surface-foreground">
           <h1 className="sr-only">Mega Cell — iPhones em Lajeado, RS</h1>
-          <div className="flex justify-center">
+          <div className="flex justify-start rounded-md bg-background/95 p-4 w-fit shadow-xl">
             <Logo size="lg" />
           </div>
-
-          <p className="text-xl font-medium text-foreground/80 sm:text-2xl lg:text-3xl font-display">
+          <p className="mt-7 text-3xl font-semibold leading-tight sm:text-5xl">
             {settings?.tagline?.trim() || "Atendemos pessoas extraordinárias desde 2020"}
           </p>
-          <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-dark-surface-foreground/80 sm:text-lg">
             iPhones e acessórios com procedência garantida em Lajeado/RS. Loja Física para você conhecer de perto
             e atendimento rápido pelo WhatsApp.
           </p>
-          <BrandIcons className="mt-1 inline-flex justify-center text-muted-foreground" />
-        </div>
-        
-        <div className="flex flex-wrap justify-center items-center gap-3 text-sm">
-          <div className="surface-card flex items-baseline gap-2 px-5 py-3 shadow-lg shadow-primary/5 border-primary/20">
-            <span className="text-3xl font-bold text-primary tabular-nums">{loading ? "—" : total}</span>
-            <span className="text-muted-foreground font-medium">produtos no estoque</span>
-          </div>
-          <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
-            <Store className="h-4 w-4 text-primary" /> Loja Física
-          </div>
-
-          {settings?.city_state && (
-            <div className="surface-card inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
-              <MapPin className="h-4 w-4 text-primary" /> {settings.city_state}
-            </div>
-          )}
-          <div className="surface-card hidden sm:inline-flex items-center gap-2 px-5 py-3 text-muted-foreground border-border">
-            <ShieldCheck className="h-4 w-4 text-primary" /> Garantia e Procedência
-          </div>
+          <BrandIcons className="mt-5 inline-flex text-dark-surface-foreground" />
+          <div className="mt-7 flex flex-wrap items-center gap-3">
           <Button
             onClick={openRepair}
-            className="h-auto rounded-[var(--radius-xl)] bg-brand px-5 py-3 text-brand-foreground hover:bg-brand/90"
+            className="h-12 rounded-full bg-brand px-6 text-brand-foreground hover:bg-brand/90"
           >
             <Wrench className="mr-2 h-4 w-4" /> Solicitar reparo
           </Button>
           <PreorderPromo />
+          </div>
+          <a href="#catalogo" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-dark-surface-foreground/80 hover:text-dark-surface-foreground">
+            Ver produtos <ArrowDown className="h-4 w-4" />
+          </a>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function BenefitsStrip() {
+  const items = [
+    { icon: Store, label: "Loja Física", hint: "Em Lajeado/RS" },
+    { icon: BadgeCheck, label: "Procedência", hint: "Compra segura" },
+    { icon: CreditCard, label: "Até 18x", hint: "No cartão" },
+    { icon: Headphones, label: "Atendimento", hint: "Direto no WhatsApp" },
+    { icon: Truck, label: "Estoque real", hint: "Sempre atualizado" },
+  ];
+  return (
+    <section className="relative z-10 mx-auto -mt-16 max-w-6xl px-4">
+      <div className="grid grid-cols-2 overflow-hidden rounded-lg border border-border bg-background shadow-xl sm:grid-cols-3 lg:grid-cols-5">
+        {items.map(({ icon: Icon, label, hint }) => (
+          <div key={label} className="flex min-h-28 flex-col items-center justify-center border-b border-r border-border p-4 text-center last:border-r-0 sm:min-h-32">
+            <Icon className="h-6 w-6 text-brand" />
+            <strong className="mt-2 text-sm">{label}</strong>
+            <span className="mt-1 text-xs text-muted-foreground">{hint}</span>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -282,23 +298,23 @@ function PaymentMethods() {
     { icon: CreditCard, label: "Cartão até 18x", hint: "Crédito e débito" },
   ];
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-12">
-      <div className="surface-card p-6 sm:p-8">
-        <h2 className="text-xl font-semibold sm:text-2xl">Formas de pagamento</h2>
+    <section className="bg-dark-surface px-4 py-16 text-dark-surface-foreground">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="text-center text-2xl font-semibold sm:text-3xl">Formas de <span className="text-brand">pagamento</span></h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
           {items.map(({ icon: Icon, label, hint }) => (
-            <div key={label} className="flex items-center gap-3 rounded-[var(--radius-lg)] bg-surface p-4">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-primary/10 text-primary">
+            <div key={label} className="flex items-center gap-3 rounded-md border border-dark-surface-foreground/15 p-5">
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground">
                 <Icon className="h-5 w-5" />
               </span>
               <div>
                 <div className="font-medium">{label}</div>
-                <div className="text-xs text-muted-foreground">{hint}</div>
+                <div className="text-xs text-dark-surface-foreground/65">{hint}</div>
               </div>
             </div>
           ))}
         </div>
-        <p className="mt-5 rounded-[var(--radius-lg)] border border-brand/30 bg-brand/5 px-4 py-3 text-sm text-foreground">
+        <p className="mt-5 rounded-md border border-brand/40 bg-brand/10 px-4 py-3 text-center text-sm">
           <strong>Importante:</strong> não trabalhamos com boleto.
         </p>
       </div>
@@ -314,7 +330,25 @@ function Filters({
   tab: "all" | Category; setTab: (v: "all" | Category) => void;
 }) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-wrap justify-center gap-3 sm:gap-5">
+        {TABS.map((t) => {
+          const active = t.id === tab;
+          const Icon = t.id === "iphone" ? Apple : t.id === "xiaomi" ? Smartphone : t.id === "watch" ? CreditCard : t.id === "all" ? Store : t.id === "acessorios" ? Headphones : Gamepad2;
+          return (
+            <Button
+              key={t.id}
+              type="button"
+              variant="outline"
+              onClick={() => setTab(t.id)}
+              className={`h-24 w-24 flex-col rounded-full p-2 text-xs shadow-none sm:h-28 sm:w-28 sm:text-sm ${active ? "border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground" : "border-border bg-surface hover:border-primary hover:bg-background"}`}
+            >
+              <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
+              <span className="whitespace-normal text-center leading-tight">{t.label}</span>
+            </Button>
+          );
+        })}
+      </div>
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -335,24 +369,6 @@ function Filters({
             <SelectItem value="price_asc">Menor preço</SelectItem>
           </SelectContent>
         </Select>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {TABS.map((t) => {
-          const active = t.id === tab;
-          return (
-            <button
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              className={`rounded-full border px-4 py-2 text-sm transition ${
-                active
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-surface text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {t.label}
-            </button>
-          );
-        })}
       </div>
     </div>
   );
@@ -418,7 +434,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
   return (
     <article
       onClick={onOpen}
-      className="surface-card group relative flex cursor-pointer flex-col overflow-hidden transition hover:border-primary/60 hover:shadow-[0_10px_40px_-14px_color-mix(in_oklab,var(--primary)_45%,transparent)]"
+      className="surface-card group relative flex cursor-pointer flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/60 hover:shadow-[0_16px_45px_-18px_color-mix(in_oklab,var(--primary)_45%,transparent)]"
     >
       <button
         type="button"
@@ -624,23 +640,23 @@ function EmptyState({ hasAny }: { hasAny: boolean }) {
 function Footer({ settings }: { settings: StoreSettings | null | undefined }) {
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-muted-foreground">
+    <footer className="border-t border-dark-surface-foreground/10 bg-dark-surface text-dark-surface-foreground">
+      <div className="mx-auto max-w-6xl px-4 py-12 text-sm text-dark-surface-foreground/70">
         <div className="grid gap-6 sm:grid-cols-3">
           <div>
-            <div className="text-foreground font-semibold">{settings?.store_name ?? "Mega Cell"}</div>
+            <div className="mb-4 w-fit rounded-md bg-background p-3"><Logo size="sm" /></div>
             <div className="mt-1">© {year} {settings?.legal_name ?? settings?.store_name ?? "Mega Cell"}. Todos os direitos reservados.</div>
           </div>
           <div>
-            <div className="text-foreground font-semibold">Endereço</div>
+            <div className="font-semibold text-dark-surface-foreground">Endereço</div>
             <div className="mt-1 whitespace-pre-line">{settings?.address || "—"}</div>
             <div>{settings?.city_state}</div>
           </div>
           <div>
-            <div className="text-foreground font-semibold">Redes</div>
+            <div className="font-semibold text-dark-surface-foreground">Redes</div>
             {settings?.instagram_url && (
               <a href={settings.instagram_url} target="_blank" rel="noopener noreferrer"
-                className="mt-1 inline-flex items-center gap-1.5 hover:text-foreground">
+                className="mt-1 inline-flex items-center gap-1.5 hover:text-dark-surface-foreground">
                 <Instagram className="h-4 w-4" /> {settings.instagram_handle}
               </a>
             )}

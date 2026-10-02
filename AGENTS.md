@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- The public storefront keeps business logic in `src/routes/index.tsx` while its presentation follows the NS Imports-inspired section rhythm; this prevents visual redesigns from changing catalog and WhatsApp behavior.
