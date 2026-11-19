@@ -420,9 +420,11 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
       onClick={onOpen}
       className="surface-card group relative flex cursor-pointer flex-col overflow-hidden transition hover:border-primary/60 hover:shadow-[0_10px_40px_-14px_color-mix(in_oklab,var(--primary)_45%,transparent)]"
     >
-      <button
-        type="button"
+      <div
+        role="button"
+        tabIndex={0}
         onClick={handleImage}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); onOpen(); } }}
         className="relative block aspect-square w-full overflow-hidden bg-surface-elevated"
         aria-label={`Ver detalhes de ${product.name}`}
       >
@@ -472,7 +474,7 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: () => void
             </div>
           </>
         )}
-      </button>
+      </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
         <h3 className="text-base font-semibold leading-tight">{product.name}</h3>
         {product.specs && Object.keys(product.specs).length > 0 && (

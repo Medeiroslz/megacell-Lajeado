@@ -56,7 +56,7 @@ function LoginForm() {
     setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
-    if (error) toast.error(error.message);
+    if (error) toast.error(/invalid login/i.test(error.message) ? "E-mail ou senha incorretos." : /email not confirmed/i.test(error.message) ? "E-mail ainda não confirmado." : "Não foi possível entrar. Tente novamente.");
   };
 
   return (
