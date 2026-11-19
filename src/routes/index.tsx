@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { formatBRL, categoryLabel, safeOpenUrl } from "@/lib/format";
 import type { Product, StoreSettings, Category } from "@/lib/catalog-types";
@@ -559,7 +559,7 @@ function ProductModal({ product, onClose }: { product: Product | null; onClose: 
           <div className="flex flex-col gap-4 p-6">
             <div>
               <div className="text-[11px] uppercase tracking-widest text-muted-foreground">{categoryLabel(product.category)}</div>
-              <h2 className="mt-1 text-xl font-semibold pr-8">{product.name}</h2>
+              <DialogTitle className="mt-1 text-xl font-semibold pr-8">{product.name}</DialogTitle><DialogDescription className="sr-only">Detalhes, preço e parcelamento de {product.name}</DialogDescription>
             </div>
             <div>
               <div className="text-3xl font-semibold text-primary">{formatBRL(product.price)}</div>
